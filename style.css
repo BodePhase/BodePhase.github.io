@@ -184,32 +184,21 @@ a {
 .github:hover {
   color: #542673;
 }
-/*
-.home__scroll{
-  /*display: none;
-}
 
-.home__scroll-button{
-  color: var(--first-color);
-  transition: .3s;
+.social-links a{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border: 2px solid #4233e4;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #4233e4;
+  text-decoration: none;
+  margin: 30px 15px 30px 0;
 }
-
-.home__scroll-button:hover{
-  transform: translateY(0.25rem);
-}
-
-.home__scroll-mouse{
-  font-size: 2rem;
-}
-
-.home__scroll-name{
-
-}
-
-.home__scroll-arrow{
-  font-size: 1.25rem;
-}
-*/
 
 .subheading {
   color: var(--text);
