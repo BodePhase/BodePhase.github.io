@@ -20,9 +20,9 @@
 <nav>
   <div class="container nav-container">
     <a href="index.html" class="logo-link" aria-label="Go to homepage">  
-      <svg xmlns="http://www.w3.org/2000/svg" class="logo" viewBox="0 0 20 20" fill="currentColor" xml:space="preserve">
+      <svg xmlns="http://www.w3.org/2000/svg" class="logo" width="120" viewBox="0 0 20 20" fill="currentColor" xml:space="preserve">
         <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-      </svg>   
+      </svg> 
     </a>
     <div class="nav-wrapper">
       <button class="btn btn--menu" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open mobile nav">
@@ -49,9 +49,6 @@
   <div class="container header-container">
     <h1 class="h1 rise">Hi, I'm <strong class="color-name">Massimiliano</strong></h1>
     <p class="h3 rise subheading"><span class="typing"></span></p>
-    <p></p>
-    <p></p>
-    <p></p>
   </div>
 </header>
 <main>
@@ -60,6 +57,8 @@
     <p class="body">Third-year Computer and Systems Engineering student at Sapienza University of Rome.</p>
     <p class="body">Experienced in programming Python, Java, C.</p>
     <p class="body">Interested in AI, cybersecurity, robotics, and theory of computation.</p>
+    <p></p>
+    <p></p>
   </section>
   <section class="container" aria-labelledby="cards">
    
@@ -129,6 +128,7 @@
       },
     },
     particles: {
+      number: {limit: 25},
       links: {
         enable: true, // this enables links between particles
         opacity: 0.3,
