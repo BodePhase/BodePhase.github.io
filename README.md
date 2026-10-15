@@ -2,10 +2,10 @@
   <img alt="Logo" src="./src/images/logo.png" width="100" />
 </div>
 <h1 align="center">
-  massimilianofavetta.com
+  massimilianofavetta.me
 </h1>
 <p align="center">
-  Personal portfolio of <strong>Massimiliano Favetta</strong> — Computer and Systems Engineering student at <strong>Sapienza University of Rome</strong>.
+  Personal portfolio of <a href="https://BodePhase.github.io" target="_blank">massimilianofavetta.me</a> built with <a href="https://www.gatsbyjs.org/" target="_blank">Gatsby</a> and hosted with <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site" target="_blank">Github Pages</a>
 </p>
 
 ![demo](./src/images/demo.png)
@@ -34,20 +34,28 @@ I am a **Computer and Systems Engineering** student at **Sapienza University of 
 This project runs on **Node.js v16.20.2** (configured via `.nvmrc`). To run it locally on Linux / WSL2:
 
 1. **Clone the repository:**
+
    ```bash
    git clone [https://github.com/BodePhase/BodePhase.github.io.git](https://github.com/BodePhase/BodePhase.github.io.git) portfolio
    cd portfolio
+   ```
 
 2. **Switch to the required Node version via NVM:**
+
    ```bash
    nvm install 16.20.2
    nvm use
+   ```
 
 3. **Install dependencies:**
+
    ```bash
    npm install --legacy-peer-deps
+   ```
 
 4. **Start the development server:**
+
    ```bash
    npm start
+   ```
    The site will be available at http://localhost:8000.
