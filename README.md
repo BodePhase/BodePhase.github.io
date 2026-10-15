@@ -1,4 +1,4 @@
-div align="center">
+<div align="center">
   <img alt="Logo" src="./src/images/logo.png" width="100" />
 </div>
 <h1 align="center">
@@ -39,12 +39,15 @@ This project runs on **Node.js v16.20.2** (configured via `.nvmrc`). To run it l
    cd portfolio
 
 2. **Switch to the required Node version via NVM:**
+   ```bash
    nvm install 16.20.2
    nvm use
 
 3. **Install dependencies:**
+   ```bash
    npm install --legacy-peer-deps
 
 4. **Start the development server:**
+   ```bash
    npm start
    The site will be available at http://localhost:8000.
