@@ -17,7 +17,7 @@ const StyledHeroSection = styled.section`
   height: 100vh;
   padding: 0;
   position: relative;
-  z-index: 1;
+
 
   @media (max-height: 700px) and (min-width: 700px), (max-width: 360px) {
     height: auto;
@@ -138,7 +138,7 @@ const Hero = () => {
         className="particles-container"
         init={particlesInit}
         options={{
-          fullScreen: { enable: true, zIndex: -1 },
+          fullScreen: { enable: true, zIndex: 0 },
           fpsLimit: 60,
           particles: {
             number: { value: 40, density: { enable: true, value_area: 800 } },
@@ -155,6 +155,8 @@ const Hero = () => {
           }
         }}
       />
+
+      <div className="hero-content" style={{ zIndex: 2, position: 'relative' }}></div>
 
       <div style={{ zIndex: 2, position: 'relative' }}>
         {prefersReducedMotion ? (

@@ -443,6 +443,62 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
+  /* Porta tutte le sezioni e il footer sopra il livello 0 delle particelle */
+  section,
+  footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Maschera sfumata dietro ai testi ristretta solo alle parole (width: fit-content) */
+  .hero-content > div > *,
+  .numbered-heading,
+  #about .inner > div:first-child,
+  #jobs .inner,
+  #contact > * {
+    position: relative;
+    z-index: 2;
+    width: fit-content;
+    background-color: var(--navy);
+    box-shadow: 0 0 15px 10px var(--navy);
+    border-radius: 4px;
+  }
+
+  /* Centra i blocchi ristretti nella sezione Contact */
+  #contact > * {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Maschera per i testi dei progetti Featured (solo su desktop per non coprire le card mobile) */
+  @media (min-width: 769px) {
+    #projects .project-overline,
+    #projects .project-title,
+    #projects .project-tech-list,
+    #projects .project-links {
+      position: relative;
+      z-index: 2;
+      width: fit-content;
+      background-color: var(--navy);
+      box-shadow: 0 0 15px 10px var(--navy);
+      border-radius: 4px;
+    }
+
+    /* Allinea a destra i blocchi di testo nei progetti dispari (1°, 3°, ecc.) così non toccano la foto */
+    #projects li:nth-of-type(odd) .project-overline,
+    #projects li:nth-of-type(odd) .project-title,
+    #projects li:nth-of-type(odd) .project-tech-list,
+    #projects li:nth-of-type(odd) .project-links {
+      margin-left: auto !important;
+    }
+  }
+
+  /* Mantiene i bottoni con sfondo solido così le particelle non passano dentro */
+  .email-link,
+  .resume-button {
+    background-color: var(--navy) !important;
+  }
+    
   ${TransitionStyles};
 
   ${PrismStyles};
