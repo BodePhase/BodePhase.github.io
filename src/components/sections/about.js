@@ -148,13 +148,9 @@ const About = () => {
 
             <p>  
               However, my interest in technology goes beyond just writing clean code.
-              I am deeply fascinated by cybersecurity, 
+              I am deeply fascinated by cybersecurity, chess and bridging the gap between theoretical engineering concepts and hands-on, secure software development.
             </p>
-
-            <p>
-              Right now, my main focus is bridging the gap between theoretical engineering concepts and hands-on, secure software development.
-            </p>
-
+            
             <p>Here are a few technologies I’ve been working with recently:</p>
           </div>
 
