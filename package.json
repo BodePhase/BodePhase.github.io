@@ -1,11 +1,11 @@
 {
-  "name": "v4",
-  "description": "Personal Website V4",
+  "name": "BodePhase.github.io",
+  "description": "Personal Website Portfolio",
   "version": "1.0.0",
-  "author": "Brittany Chiang <brittany.chiang@gmail.com>",
+  "author": "Massimiliano Favetta",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bchiang7/v4"
+    "url": "https://github.com/BodePhase/BodePhase.github.io"
   },
   "keywords": [
     "gatsby"
@@ -13,14 +13,12 @@
   "license": "MIT",
   "browserslist": "> 0.25%, not dead",
   "scripts": {
-    "build": "mkdir -p .cache && gatsby build",
-    "develop": "mkdir -p .cache && gatsby develop",
-    "format": "prettier --write \"src/**/*.{js,jsx,json,md}\"",
+    "develop": "export PATH=\"$HOME/.nvm/versions/node/v16.20.2/bin:$PATH\" && mkdir -p .cache && gatsby develop",
     "start": "npm run develop",
+    "build": "export PATH=\"$HOME/.nvm/versions/node/v16.20.2/bin:$PATH\" && mkdir -p .cache && gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean && mkdir -p .cache",
-    "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "clean": "export PATH=\"$HOME/.nvm/versions/node/v16.20.2/bin:$PATH\" && gatsby clean && mkdir -p .cache",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,md}\""
   },
   "lint-staged": {
     "*.{js,css,json,md}": [
