@@ -2,8 +2,9 @@
 date: '3'
 title: 'Exam Schedule'
 cover: './demo.png'
+github: 'https://github.com/BodePhase/sito-web-Calendario_Esami/tree/main'
 external: ''
-cta: 'https://github.com/BodePhase/sito-web-Calendario_Esami/tree/main'
+cta: ''
 tech:
   - PHP
   - API
