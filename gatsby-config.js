@@ -3,7 +3,8 @@ const config = require('./src/config');
 module.exports = {
   siteMetadata: {
     title: 'Massimiliano Favetta',
-    description: 'Massimiliano Favetta is a software and systems engineer student.',
+    description:
+      'Massimiliano Favetta is a Computer and Systems Engineering student at Sapienza University of Rome.',
     siteUrl: 'https://BodePhase.github.io',
     image: '/og.png',
     twitterUsername: '',
@@ -20,7 +21,7 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: 'Massimiliano Favetta',
-        short_name: 'Massimiliano Favetta',
+        short_name: 'M. Favetta',
         start_url: '/',
         background_color: config.colors.darkNavy,
         theme_color: config.colors.navy,
@@ -40,13 +41,6 @@ module.exports = {
       options: {
         name: 'content',
         path: `${__dirname}/content/`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `posts`,
-        path: `${__dirname}/content/posts`,
       },
     },
     {
@@ -86,11 +80,6 @@ module.exports = {
               aliases: {},
               showLineNumbers: false,
               noInlineHighlight: false,
-              prompt: {
-                user: 'root',
-                host: 'localhost',
-                global: false,
-              },
             },
           },
         ],

@@ -7,9 +7,9 @@ external: ''
 cta: ''
 tech:
   - PHP
-  - API
-  - Css
-  - Styled Components
+  - Google Calendar API
+  - JavaScript
+  - CSS3
 ---
 
 A web app where you can link the exam schedule for your degree program and automatically sync it with your Google Calendar.

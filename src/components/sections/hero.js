@@ -583,7 +583,7 @@ const Hero = () => {
       case 'ls':
         response = (
           <span>
-            Scrolling to <strong>#projects</strong> section...
+            Featured: <strong>01. Torchfish</strong> · <strong>02. whodontfollowyou</strong> · <strong>03. Exam Schedule</strong> — Scrolling to #projects...
           </span>
         );
         setTimeout(() => scrollToSection('projects'), 350);

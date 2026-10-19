@@ -1,61 +1,46 @@
 <div align="center">
-  <img alt="Logo" src="./src/images/logo.png" width="100" />
+  <img alt="Logo" src="./static/favicon.svg" width="90" />
 </div>
 <h1 align="center">
-  massimilianofavetta.me
+  Massimiliano Favetta — Personal Portfolio
 </h1>
 <p align="center">
-  Personal portfolio of <a href="https://BodePhase.github.io" target="_blank">massimilianofavetta.me</a> built with <a href="https://www.gatsbyjs.org/" target="_blank">Gatsby</a> and hosted with <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site" target="_blank">Github Pages</a>
+  Personal engineering portfolio built with <a href="https://www.gatsbyjs.com/" target="_blank">Gatsby v5</a>, <a href="https://react.dev/" target="_blank">React 18</a> &amp; <a href="https://www.framer.com/motion/" target="_blank">Framer Motion</a>, hosted on <a href="https://BodePhase.github.io" target="_blank">GitHub Pages</a>.
 </p>
-
-![demo](./src/images/demo.png)
-
-# Massimiliano — Personal Portfolio
-
-Welcome to the repository of my personal portfolio website, built with **Gatsby** and **React**. 
-
-I am a **Computer and Systems Engineering** student at **Sapienza University of Rome**, passionate about software architecture, cybersecurity, and strategic problem-solving. This site showcases my main engineering projects, technical skills, and academic journey.
-
-🌐 **Live Site:** [BodePhase.github.io](https://BodePhase.github.io)
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & Architecture
 
-- **Framework:** [Gatsby v3](https://www.gatsbyjs.com/) & [React](https://reactjs.org/)
-- **Styling:** [Styled Components](https://styled-components.com/)
-- **Data Layer:** [GraphQL](https://graphql.org/) & Markdown
-- **Animations:** [Anime.js](https://animejs.com/) & ScrollReveal
+- **Framework:** Gatsby v5 & React 18
+- **Styling:** Styled Components (Cyber-Glass dark theme & responsive blueprint grid)
+- **Animations:** Framer Motion
+- **Interactive Shell:** Custom Hero bash terminal (`neofetch`, `whoami`, `skills`, `chess`, `projects`, `Tab` autocomplete & command history)
+- **Runtime:** Node.js v20 LTS
 
 ---
 
 ## 🚀 Local Development Setup
 
-This project runs on **Node.js v16.20.2** (configured via `.nvmrc`). To run it locally on Linux / WSL2:
-
-1. **Clone the repository:**
-
+1. **Use Node.js 20 LTS via NVM:**
    ```bash
-   git clone [https://github.com/BodePhase/BodePhase.github.io.git](https://github.com/BodePhase/BodePhase.github.io.git) portfolio
-   cd portfolio
+   nvm use 20
    ```
 
-2. **Switch to the required Node version via NVM:**
+2. **Install dependencies:**
 
-   ```bash
-   nvm install 16.20.2
-   nvm use
-   ```
-
-3. **Install dependencies:**
-
-   ```bash
    npm install --legacy-peer-deps
-   ```
 
-4. **Start the development server:**
+
+3. **Start the development server:**
 
    ```bash
    npm start
    ```
-   The site will be available at http://localhost:8000.
+   Open http://localhost:8000 in your browser.
+
+4. **Production build:**
+
+   ```bash
+   npm run build
+   ```
