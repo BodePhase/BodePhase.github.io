@@ -1,15 +1,14 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { srConfig } from '@config';
-import sr from '@utils/sr';
 import { Layout } from '@components';
 import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
 
-const StyledTableContainer = styled.div`
+const StyledTableContainer = styled(motion.div)`
   margin: 100px -20px;
 
   @media (max-width: 768px) {
@@ -131,32 +130,25 @@ const StyledTableContainer = styled.div`
 
 const ArchivePage = ({ location, data }) => {
   const projects = data.allMarkdownRemark.edges;
-  const revealTitle = useRef(null);
-  const revealTable = useRef(null);
-  const revealProjects = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    sr.reveal(revealTitle.current, srConfig());
-    sr.reveal(revealTable.current, srConfig(200, 0));
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 10)));
-  }, []);
 
   return (
     <Layout location={location}>
       <Helmet title="Archive" />
 
       <main>
-        <header ref={revealTitle}>
+        <motion.header
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}>
           <h1 className="big-heading">Archive</h1>
           <p className="subtitle">A big list of things I’ve worked on</p>
-        </header>
+        </motion.header>
 
-        <StyledTableContainer ref={revealTable}>
+        <StyledTableContainer
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}>
           <table>
             <thead>
               <tr>
@@ -181,7 +173,7 @@ const ArchivePage = ({ location, data }) => {
                     company,
                   } = node.frontmatter;
                   return (
-                    <tr key={i} ref={el => (revealProjects.current[i] = el)}>
+                    <tr key={i}>
                       <td className="overline year">{`${new Date(date).getFullYear()}`}</td>
 
                       <td className="title">{title}</td>
@@ -192,11 +184,13 @@ const ArchivePage = ({ location, data }) => {
 
                       <td className="tech hide-on-mobile">
                         {tech?.length > 0 &&
-                          tech.map((item, i) => (
-                            <span key={i}>
+                          tech.map((item, idx) => (
+                            <span key={idx}>
                               {item}
                               {''}
-                              {i !== tech.length - 1 && <span className="separator">&middot;</span>}
+                              {idx !== tech.length - 1 && (
+                                <span className="separator">&middot;</span>
+                              )}
                             </span>
                           ))}
                       </td>
@@ -235,6 +229,7 @@ const ArchivePage = ({ location, data }) => {
     </Layout>
   );
 };
+
 ArchivePage.propTypes = {
   location: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
@@ -246,7 +241,7 @@ export const pageQuery = graphql`
   {
     allMarkdownRemark(
       filter: { fileAbsolutePath: { regex: "/content/projects/" } }
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { frontmatter: { date: DESC } }
     ) {
       edges {
         node {

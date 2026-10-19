@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import sr from '@utils/sr';
-import { srConfig } from '@config';
 import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
 
@@ -16,7 +15,7 @@ const StyledProjectsGrid = styled.ul`
   }
 `;
 
-const StyledProject = styled.li`
+const StyledProject = styled(motion.li)`
   position: relative;
   display: grid;
   grid-gap: 10px;
@@ -24,18 +23,25 @@ const StyledProject = styled.li`
   align-items: center;
 
   @media (max-width: 768px) {
-    ${({ theme }) => theme.mixins.boxShadow};
+    display: flex;
+    flex-direction: column;
+    grid-gap: 0;
+    background-color: rgba(36, 38, 36, 0.98);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 18px 35px -15px rgba(0, 0, 0, 0.85);
   }
 
   &:not(:last-of-type) {
     margin-bottom: 100px;
 
     @media (max-width: 768px) {
-      margin-bottom: 70px;
+      margin-bottom: 50px;
     }
 
     @media (max-width: 480px) {
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
   }
 
@@ -48,26 +54,29 @@ const StyledProject = styled.li`
         grid-column: 5 / -1;
       }
       @media (max-width: 768px) {
-        grid-column: 1 / -1;
-        padding: 40px 40px 30px;
+        order: 2;
+        width: 100%;
+        padding: 24px 22px 20px;
         text-align: left;
       }
       @media (max-width: 480px) {
-        padding: 25px 25px 20px;
+        padding: 20px 18px 16px;
       }
     }
     .project-tech-list {
       justify-content: flex-end;
+      margin-left: auto;
 
       @media (max-width: 768px) {
         justify-content: flex-start;
+        margin-left: 0;
       }
 
       li {
-        margin: 0 0 5px 20px;
+        margin: 0 0 6px 18px;
 
         @media (max-width: 768px) {
-          margin: 0 10px 5px 0;
+          margin: 0 8px 8px 0;
         }
       }
     }
@@ -86,7 +95,8 @@ const StyledProject = styled.li`
       grid-column: 1 / 8;
 
       @media (max-width: 768px) {
-        grid-column: 1 / -1;
+        order: 1;
+        width: 100%;
       }
     }
   }
@@ -101,17 +111,17 @@ const StyledProject = styled.li`
     }
 
     @media (max-width: 768px) {
+      order: 2;
+      width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      height: 100%;
-      grid-column: 1 / -1;
-      padding: 40px 40px 30px;
+      padding: 24px 22px 20px;
       z-index: 5;
     }
 
     @media (max-width: 480px) {
-      padding: 30px 25px 20px;
+      padding: 20px 18px 16px;
     }
   }
 
@@ -121,33 +131,20 @@ const StyledProject = styled.li`
     font-family: var(--font-mono);
     font-size: var(--fz-xs);
     font-weight: 400;
+
+    @media (max-width: 768px) {
+      margin: 0 0 6px;
+    }
   }
 
   .project-title {
     color: var(--lightest-slate);
-    font-size: clamp(24px, 5vw, 28px);
-
-    @media (min-width: 768px) {
-      margin: 0 0 20px;
-    }
+    font-size: clamp(22px, 5vw, 28px);
+    margin: 0 0 20px;
 
     @media (max-width: 768px) {
       color: var(--white);
-
-      a {
-        position: static;
-
-        &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          z-index: 0;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-        }
-      }
+      margin: 0 0 12px;
     }
   }
 
@@ -162,9 +159,11 @@ const StyledProject = styled.li`
     font-size: var(--fz-lg);
 
     @media (max-width: 768px) {
-      padding: 20px 0;
+      padding: 0;
+      margin-bottom: 18px;
       background-color: transparent;
       box-shadow: none;
+      font-size: var(--fz-md);
 
       &:hover {
         box-shadow: none;
@@ -186,12 +185,18 @@ const StyledProject = styled.li`
     flex-wrap: wrap;
     position: relative;
     z-index: 2;
-    margin: 25px 0 10px;
+    margin: 22px 0 10px;
     padding: 0;
     list-style: none;
+    /* Mantiene i tag fuori dalla colonna dell'immagine su Desktop */
+    max-width: 80%;
+
+    @media (max-width: 1080px) {
+      max-width: 68%;
+    }
 
     li {
-      margin: 0 20px 5px 0;
+      margin: 0 18px 6px 0;
       color: var(--light-slate);
       font-family: var(--font-mono);
       font-size: var(--fz-xs);
@@ -199,11 +204,17 @@ const StyledProject = styled.li`
     }
 
     @media (max-width: 768px) {
-      margin: 10px 0;
+      max-width: 100%;
+      margin: 0 0 10px;
 
       li {
-        margin: 0 10px 5px 0;
-        color: var(--lightest-slate);
+        margin: 0 8px 8px 0;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background-color: var(--green-tint);
+        border: 1px solid rgba(46, 204, 113, 0.2);
+        color: var(--green);
+        font-size: var(--fz-xxs);
       }
     }
   }
@@ -215,6 +226,10 @@ const StyledProject = styled.li`
     margin-top: 10px;
     margin-left: -10px;
     color: var(--lightest-slate);
+
+    @media (max-width: 768px) {
+      margin-top: 4px;
+    }
 
     a {
       ${({ theme }) => theme.mixins.flexCenter};
@@ -248,31 +263,41 @@ const StyledProject = styled.li`
     z-index: 1;
 
     @media (max-width: 768px) {
-      grid-column: 1 / -1;
-      height: 100%;
-      opacity: 0.25;
+      order: 1;
+      width: 100%;
+      height: auto;
+      opacity: 1;
+      box-shadow: none;
+      border-bottom: 1px solid var(--glass-border);
     }
 
     a {
       width: 100%;
       height: 100%;
-      background-color: var(--green); /* IL VERDE RIMANE FISSO QUI */
+      background-color: var(--green);
       border-radius: var(--border-radius);
       vertical-align: middle;
+
+      @media (max-width: 768px) {
+        background-color: var(--dark-navy);
+        border-radius: 0;
+      }
 
       &:hover,
       &:focus {
         outline: 0;
 
-        &:before {
-          background-color: var(--navy);
-          mix-blend-mode: screen;
-        }
+        @media (min-width: 769px) {
+          &:before {
+            background-color: var(--navy);
+            mix-blend-mode: screen;
+          }
 
-        .img {
-          filter: grayscale(100%) contrast(1) brightness(90%);
-          mix-blend-mode: multiply;
-          transition: none; /* Scatto pulito senza sbavature */
+          .img {
+            filter: grayscale(100%) contrast(1) brightness(90%);
+            mix-blend-mode: multiply;
+            transition: none;
+          }
         }
       }
 
@@ -287,27 +312,31 @@ const StyledProject = styled.li`
         bottom: 0;
         z-index: 3;
         transition: var(--transition);
-        background-color: transparent; /* TRASPARENTE DI BASE */
+        background-color: transparent;
         mix-blend-mode: normal;
+
+        @media (max-width: 768px) {
+          display: none;
+        }
       }
     }
 
     .img {
       border-radius: var(--border-radius);
-      mix-blend-mode: normal; /* IMMAGINE NORMALE A COLORI */
-      filter: none; /* IMMAGINE NORMALE A COLORI */
+      mix-blend-mode: normal;
+      filter: none;
       width: 100%;
       height: 100%;
       display: block;
       transition: var(--transition);
 
-      /* QUESTA PARTE SALVA LA VISUALIZZAZIONE SU SMARTPHONE */
       @media (max-width: 768px) {
+        border-radius: 0;
         object-fit: cover;
-        width: auto;
-        height: 100%;
-        filter: grayscale(100%) contrast(1) brightness(50%);
-        mix-blend-mode: multiply;
+        width: 100%;
+        max-height: 240px;
+        filter: none;
+        mix-blend-mode: normal;
       }
     }
   }
@@ -318,7 +347,7 @@ const Featured = () => {
     {
       featured: allMarkdownRemark(
         filter: { fileAbsolutePath: { regex: "/content/featured/" } }
-        sort: { fields: [frontmatter___date], order: ASC }
+        sort: { frontmatter: { date: ASC } }
       ) {
         edges {
           node {
@@ -326,7 +355,7 @@ const Featured = () => {
               title
               cover {
                 childImageSharp {
-                  gatsbyImageData(width: 700, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+                  gatsbyImageData(width: 700, placeholder: BLURRED, formats: [AUTO, WEBP])
                 }
               }
               tech
@@ -342,24 +371,18 @@ const Featured = () => {
   `);
 
   const featuredProjects = data.featured.edges.filter(({ node }) => node);
-  const revealTitle = useRef(null);
-  const revealProjects = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    sr.reveal(revealTitle.current, srConfig());
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
-  }, []);
 
   return (
     <section id="projects">
-      <h2 className="numbered-heading" ref={revealTitle}>
+      <motion.h2
+        className="numbered-heading"
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.5 }}>
         Some Things I’ve Built
-      </h2>
+      </motion.h2>
 
       <StyledProjectsGrid>
         {featuredProjects &&
@@ -369,13 +392,18 @@ const Featured = () => {
             const image = getImage(cover);
 
             return (
-              <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
+              <StyledProject
+                key={i}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}>
                 <div className="project-content">
                   <div>
                     <p className="project-overline">Featured Project</p>
 
                     <h3 className="project-title">
-                      <a href={external}>{title}</a>
+                      <a href={external || github || '#'}>{title}</a>
                     </h3>
 
                     <div
@@ -383,10 +411,10 @@ const Featured = () => {
                       dangerouslySetInnerHTML={{ __html: html }}
                     />
 
-                    {tech.length && (
+                    {tech.length > 0 && (
                       <ul className="project-tech-list">
-                        {tech.map((tech, i) => (
-                          <li key={i}>{tech}</li>
+                        {tech.map((techItem, idx) => (
+                          <li key={idx}>{techItem}</li>
                         ))}
                       </ul>
                     )}

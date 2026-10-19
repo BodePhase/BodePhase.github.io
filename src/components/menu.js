@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'gatsby';
+import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import { navLinks } from '@config';
 import { KEY_CODES } from '@utils';
-import { useOnClickOutside } from '@hooks';
 
 const StyledMenu = styled.div`
   display: none;
 
   @media (max-width: 768px) {
-    display: block;
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -20,32 +21,37 @@ const StyledHamburgerButton = styled.button`
   @media (max-width: 768px) {
     ${({ theme }) => theme.mixins.flexCenter};
     position: relative;
-    z-index: 10;
-    margin-right: -15px;
-    padding: 15px;
-    border: 0;
-    background-color: transparent;
+    z-index: 20;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 10px;
+    border: 1px solid ${({ menuOpen }) => (menuOpen ? 'rgba(46, 204, 113, 0.35)' : 'transparent')};
+    background-color: ${({ menuOpen }) => (menuOpen ? 'rgba(46, 204, 113, 0.08)' : 'transparent')};
     color: inherit;
-    text-transform: none;
-    transition-timing-function: linear;
-    transition-duration: 0.15s;
-    transition-property: opacity, filter;
+    transition: var(--transition);
+
+    &:hover,
+    &:focus-visible {
+      border-color: rgba(46, 204, 113, 0.35);
+      background-color: rgba(46, 204, 113, 0.08);
+    }
   }
 
   .ham-box {
     display: inline-block;
     position: relative;
-    width: var(--hamburger-width);
-    height: 24px;
+    width: 26px;
+    height: 20px;
   }
 
   .ham-box-inner {
     position: absolute;
     top: 50%;
     right: 0;
-    width: var(--hamburger-width);
+    width: 26px;
     height: 2px;
-    border-radius: var(--border-radius);
+    border-radius: 4px;
     background-color: var(--green);
     transition-duration: 0.22s;
     transition-property: transform;
@@ -61,7 +67,6 @@ const StyledHamburgerButton = styled.button`
       position: absolute;
       left: auto;
       right: 0;
-      width: var(--hamburger-width);
       height: 2px;
       border-radius: 4px;
       background-color: var(--green);
@@ -70,49 +75,55 @@ const StyledHamburgerButton = styled.button`
       transition-property: transform;
     }
     &:before {
-      width: ${props => (props.menuOpen ? `100%` : `120%`)};
-      top: ${props => (props.menuOpen ? `0` : `-10px`)};
+      width: ${props => (props.menuOpen ? `100%` : `100%`)};
+      top: ${props => (props.menuOpen ? `0` : `-8px`)};
       opacity: ${props => (props.menuOpen ? 0 : 1)};
       transition: ${({ menuOpen }) =>
-    menuOpen ? 'var(--ham-before-active)' : 'var(--ham-before)'};
+        menuOpen ? 'var(--ham-before-active)' : 'var(--ham-before)'};
     }
     &:after {
-      width: ${props => (props.menuOpen ? `100%` : `80%`)};
-      bottom: ${props => (props.menuOpen ? `0` : `-10px`)};
+      width: ${props => (props.menuOpen ? `100%` : `70%`)};
+      bottom: ${props => (props.menuOpen ? `0` : `-8px`)};
       transform: rotate(${props => (props.menuOpen ? `-90deg` : `0`)});
       transition: ${({ menuOpen }) => (menuOpen ? 'var(--ham-after-active)' : 'var(--ham-after)')};
     }
   }
 `;
 
-const StyledSidebar = styled.aside`
-  display: none;
+const StyledBackdrop = styled(motion.div)`
+  position: fixed;
+  inset: 0;
+  background-color: rgba(10, 12, 10, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 14;
+`;
 
-  @media (max-width: 768px) {
-    ${({ theme }) => theme.mixins.flexCenter};
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    padding: 50px 10px;
-    width: min(75vw, 400px);
-    height: 100vh;
-    outline: 0;
-    background-color: var(--light-navy);
-    box-shadow: -10px 0px 30px -15px var(--navy-shadow);
-    z-index: 9;
-    transform: translateX(${props => (props.menuOpen ? 0 : 100)}vw);
-    visibility: ${props => (props.menuOpen ? 'visible' : 'hidden')};
-    transition: var(--transition);
-  }
+const StyledSidebar = styled(motion.aside)`
+  ${({ theme }) => theme.mixins.flexCenter};
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  padding: 90px 28px 40px;
+  width: min(78vw, 340px);
+  height: 100vh;
+  outline: 0;
+  background: linear-gradient(165deg, rgba(36, 38, 36, 0.98) 0%, rgba(22, 24, 22, 0.98) 100%);
+  border-left: 1px solid rgba(46, 204, 113, 0.22);
+  box-shadow: -20px 0px 50px -15px rgba(0, 0, 0, 0.85);
+  z-index: 15;
 
   nav {
-    ${({ theme }) => theme.mixins.flexBetween};
-    width: 100%;
+    display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-height: 460px;
+    height: 100%;
     color: var(--lightest-slate);
     font-family: var(--font-mono);
-    text-align: center;
   }
 
   ol {
@@ -120,111 +131,115 @@ const StyledSidebar = styled.aside`
     margin: 0;
     list-style: none;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 
     li {
       position: relative;
-      margin: 0 auto 20px;
-      counter-increment: item 1;
-      font-size: clamp(var(--fz-sm), 4vw, var(--fz-lg));
-
-      @media (max-width: 600px) {
-        margin: 0 auto 10px;
-      }
-
-      &:before {
-        content: '0' counter(item) '.';
-        display: block;
-        margin-bottom: 5px;
-        color: var(--green);
-        font-size: var(--fz-sm);
-      }
-    }
-
-    a {
-      ${({ theme }) => theme.mixins.link};
       width: 100%;
-      padding: 3px 20px 20px;
+      counter-increment: item 1;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 14px;
+        width: 100%;
+        padding: 14px 20px;
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        font-family: 'Space Grotesk', var(--font-sans);
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--lightest-slate);
+        transition: var(--transition);
+
+        &:before {
+          content: '0' counter(item) '.';
+          color: var(--green);
+          font-family: var(--font-mono);
+          font-size: var(--fz-xs);
+          font-weight: 600;
+          padding: 4px 8px;
+          border-radius: 6px;
+          background-color: var(--green-tint);
+        }
+
+        &:hover,
+        &:focus-visible {
+          background-color: var(--green-tint);
+          border-color: rgba(46, 204, 113, 0.4);
+          color: var(--green);
+          transform: translateX(4px);
+        }
+      }
     }
   }
 
   .resume-link {
     ${({ theme }) => theme.mixins.bigButton};
-    padding: 18px 50px;
-    margin: 10% auto 0;
-    width: max-content;
+    width: 100%;
+    text-align: center;
+    padding: 16px 24px;
+    margin-top: 24px;
+    border-radius: 10px;
+    background-color: rgba(46, 204, 113, 0.06);
   }
 `;
 
+const sidebarVariants = {
+  hidden: { x: '100%', opacity: 0.5 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 320,
+      damping: 32,
+      staggerChildren: 0.07,
+      delayChildren: 0.1,
+    },
+  },
+  exit: {
+    x: '100%',
+    opacity: 0,
+    transition: { duration: 0.22, ease: 'easeInOut' },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: 24 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { type: 'spring', stiffness: 300, damping: 24 },
+  },
+};
+
 const Menu = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-
   const buttonRef = useRef(null);
-  const navRef = useRef(null);
 
-  let menuFocusables;
-  let firstFocusableEl;
-  let lastFocusableEl;
-
-  const setFocusables = () => {
-    menuFocusables = [buttonRef.current, ...Array.from(navRef.current.querySelectorAll('a'))];
-    firstFocusableEl = menuFocusables[0];
-    lastFocusableEl = menuFocusables[menuFocusables.length - 1];
-  };
-
-  const handleBackwardTab = e => {
-    if (document.activeElement === firstFocusableEl) {
-      e.preventDefault();
-      lastFocusableEl.focus();
-    }
-  };
-
-  const handleForwardTab = e => {
-    if (document.activeElement === lastFocusableEl) {
-      e.preventDefault();
-      firstFocusableEl.focus();
-    }
-  };
-
-  const onKeyDown = e => {
-    switch (e.key) {
-      case KEY_CODES.ESCAPE:
-      case KEY_CODES.ESCAPE_IE11: {
-        setMenuOpen(false);
-        break;
-      }
-
-      case KEY_CODES.TAB: {
-        if (menuFocusables && menuFocusables.length === 1) {
-          e.preventDefault();
-          break;
-        }
-        if (e.shiftKey) {
-          handleBackwardTab(e);
-        } else {
-          handleForwardTab(e);
-        }
-        break;
-      }
-
-      default: {
-        break;
-      }
-    }
-  };
-
-  const onResize = e => {
-    if (e.currentTarget.innerWidth > 768) {
-      setMenuOpen(false);
-    }
-  };
+  const toggleMenu = () => setMenuOpen(prev => !prev);
 
   useEffect(() => {
+    const onKeyDown = e => {
+      if (e.key === KEY_CODES.ESCAPE || e.key === KEY_CODES.ESCAPE_IE11) {
+        setMenuOpen(false);
+      }
+    };
+
+    const onResize = e => {
+      if (e.currentTarget.innerWidth > 768) {
+        setMenuOpen(false);
+      }
+      window.scrollTo({ left: 0 });
+    };
+
     document.addEventListener('keydown', onKeyDown);
     window.addEventListener('resize', onResize);
-
-    setFocusables();
 
     return () => {
       document.removeEventListener('keydown', onKeyDown);
@@ -232,46 +247,72 @@ const Menu = () => {
     };
   }, []);
 
-  const wrapperRef = useRef();
-  useOnClickOutside(wrapperRef, () => setMenuOpen(false));
-
   return (
     <StyledMenu>
       <Helmet>
         <body className={menuOpen ? 'blur' : ''} />
       </Helmet>
 
-      <div ref={wrapperRef}>
-        <StyledHamburgerButton
-          onClick={toggleMenu}
-          menuOpen={menuOpen}
-          ref={buttonRef}
-          aria-label="Menu">
-          <div className="ham-box">
-            <div className="ham-box-inner" />
-          </div>
-        </StyledHamburgerButton>
+      <StyledHamburgerButton
+        onClick={toggleMenu}
+        menuOpen={menuOpen}
+        ref={buttonRef}
+        aria-label="Menu">
+        <div className="ham-box">
+          <div className="ham-box-inner" />
+        </div>
+      </StyledHamburgerButton>
 
-        <StyledSidebar menuOpen={menuOpen} aria-hidden={!menuOpen} tabIndex={menuOpen ? 1 : -1}>
-          <nav ref={navRef}>
-            {navLinks && (
-              <ol>
-                {navLinks.map(({ url, name }, i) => (
-                  <li key={i}>
-                    <Link to={url} onClick={() => setMenuOpen(false)}>
-                      {name}
-                    </Link>
-                  </li>
-                ))}
-              </ol>
-            )}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            <StyledBackdrop
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMenuOpen(false)}
+            />
 
-            <a href="/resume.pdf" className="resume-link">
-              Resume
-            </a>
-          </nav>
-        </StyledSidebar>
-      </div>
+            <StyledSidebar
+              variants={sidebarVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              aria-hidden={!menuOpen}>
+              <nav>
+                {navLinks && (
+                  <ol>
+                    {navLinks.map(({ url, name }, i) => (
+                      <motion.li key={i} variants={itemVariants}>
+                        <Link
+                          to={url}
+                          onClick={() => {
+                            setMenuOpen(false);
+                            window.scrollTo({ left: 0 });
+                          }}>
+                          {name}
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </ol>
+                )}
+
+                <motion.div variants={itemVariants} style={{ width: '100%' }}>
+                  <a
+                    href="/resume.pdf"
+                    className="resume-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMenuOpen(false)}>
+                    Resume
+                  </a>
+                </motion.div>
+              </nav>
+            </StyledSidebar>
+          </>
+        )}
+      </AnimatePresence>
     </StyledMenu>
   );
 };

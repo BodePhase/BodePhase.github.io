@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { motion } from 'framer-motion';
 import styled, { css } from 'styled-components';
 import { navLinks } from '@config';
-import { loaderDelay } from '@utils';
 import { useScrollDirection, usePrefersReducedMotion } from '@hooks';
 import { Menu } from '@components';
 import { IconLogo, IconHex } from '@components/icons';
@@ -17,35 +16,36 @@ const StyledHeader = styled.header`
   padding: 0px 50px;
   width: 100%;
   height: var(--nav-height);
-  /* Sostituito il blu originale con il grigio scuro Hacknical traslucido */
-  background-color: rgba(37, 38, 37, 0.85); 
+  background-color: var(--navy);
+  border-bottom: 1px solid transparent;
   filter: none !important;
   pointer-events: auto !important;
   user-select: auto !important;
-  backdrop-filter: blur(10px);
   transition: var(--transition);
 
   @media (max-width: 1080px) {
     padding: 0 40px;
   }
   @media (max-width: 768px) {
-    padding: 0 25px;
+    padding: 0 20px;
   }
 
   @media (prefers-reduced-motion: no-preference) {
     ${props =>
-    props.scrollDirection === 'up' &&
+      props.scrollDirection === 'up' &&
       !props.scrolledToTop &&
       css`
         height: var(--nav-scroll-height);
         transform: translateY(0px);
-        /* Aggiornato anche qui per quando la navbar è compatta */
-        background-color: rgba(37, 38, 37, 0.85); 
+        background-color: rgba(30, 31, 30, 0.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(46, 204, 113, 0.18);
         box-shadow: 0 10px 30px -10px var(--navy-shadow);
       `};
 
     ${props =>
-    props.scrollDirection === 'down' &&
+      props.scrollDirection === 'down' &&
       !props.scrolledToTop &&
       css`
         height: var(--nav-scroll-height);
@@ -69,8 +69,8 @@ const StyledNav = styled.nav`
 
     a {
       color: var(--green);
-      width: 42px;
-      height: 42px;
+      width: 46px;
+      height: 46px;
       position: relative;
       z-index: 1;
 
@@ -78,6 +78,8 @@ const StyledNav = styled.nav`
         position: absolute;
         top: 0;
         left: 0;
+        width: 100%;
+        height: 100%;
         z-index: -1;
         @media (prefers-reduced-motion: no-preference) {
           transition: var(--transition);
@@ -86,6 +88,8 @@ const StyledNav = styled.nav`
 
       .logo-container {
         position: relative;
+        width: 100%;
+        height: 100%;
         z-index: 1;
         svg {
           fill: none;
@@ -93,16 +97,17 @@ const StyledNav = styled.nav`
           @media (prefers-reduced-motion: no-preference) {
             transition: var(--transition);
           }
-          polygon {
+          polygon#Shape {
             fill: var(--navy);
           }
         }
       }
 
       &:hover,
-      &:focus {
+      &:focus-visible {
         outline: 0;
-        transform: translate(-4px, -4px);
+        transform: translate(-3px, -3px);
+        filter: drop-shadow(0 4px 12px var(--green-glow));
         .hex-container {
           transform: translate(4px, 3px);
         }
@@ -114,6 +119,8 @@ const StyledNav = styled.nav`
 const StyledLinks = styled.div`
   display: flex;
   align-items: center;
+  margin-left: auto;
+  gap: 14px;
 
   @media (max-width: 768px) {
     display: none;
@@ -121,67 +128,118 @@ const StyledLinks = styled.div`
 
   ol {
     ${({ theme }) => theme.mixins.flexBetween};
-    padding: 0;
+    padding: 5px 8px;
     margin: 0;
     list-style: none;
+    background-color: var(--light-navy);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    gap: 4px;
 
     li {
-      margin: 0 5px;
+      margin: 0;
       position: relative;
       counter-increment: item 1;
       font-size: var(--fz-xs);
 
       a {
-        padding: 10px;
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 14px;
+        border-radius: 8px;
+        color: var(--light-slate);
+        font-weight: 500;
+        transition: var(--transition);
 
         &:before {
           content: '0' counter(item) '.';
-          margin-right: 5px;
+          margin-right: 6px;
           color: var(--green);
           font-size: var(--fz-xxs);
-          text-align: right;
+          font-weight: 600;
+          transition: transform 0.2s ease;
+        }
+
+        &:hover,
+        &:focus-visible {
+          color: var(--white);
+          background-color: var(--green-tint);
+
+          &:before {
+            transform: translateY(-1px);
+          }
         }
       }
     }
   }
 
   .resume-button {
-    ${({ theme }) => theme.mixins.smallButton};
-    margin-left: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-family: var(--font-mono);
     font-size: var(--fz-xs);
+    font-weight: 500;
+    color: var(--green);
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.14) 0%, rgba(30, 31, 30, 0.98) 100%),
+      var(--navy);
+    border: 1px solid rgba(46, 204, 113, 0.6);
+    border-radius: 10px;
+    transition: var(--transition);
+
+    .arrow {
+      font-size: 1.1em;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--lightest-slate);
+      background: linear-gradient(135deg, rgba(46, 204, 113, 0.26) 0%, rgba(30, 31, 30, 0.98) 100%),
+        var(--navy);
+      border-color: var(--green);
+      box-shadow: 0 6px 18px -4px var(--green-glow), 2px 2px 0 0 var(--green);
+      transform: translate(-2px, -2px);
+
+      .arrow {
+        transform: translate(2px, -2px);
+        color: var(--green);
+      }
+    }
   }
 `;
 
 const Nav = ({ isHome }) => {
-  const [isMounted, setIsMounted] = useState(!isHome);
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  const handleScroll = () => {
-    setScrolledToTop(window.pageYOffset < 50);
-  };
 
   useEffect(() => {
     if (prefersReducedMotion) {
       return;
     }
 
-    const timeout = setTimeout(() => {
-      setIsMounted(true);
-    }, 100);
+    const handleScroll = () => {
+      setScrolledToTop(window.pageYOffset < 50);
+    };
 
     window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prefersReducedMotion]);
 
-    return () => {
-      clearTimeout(timeout);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const timeout = isHome ? loaderDelay : 0;
-  const fadeClass = isHome ? 'fade' : '';
-  const fadeDownClass = isHome ? 'fadedown' : '';
+  const handleSectionClick = (e, url) => {
+    if (isHome && url.startsWith('/#')) {
+      e.preventDefault();
+      const id = url.replace('/#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        window.history.pushState(null, '', url);
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   const Logo = (
     <div className="logo" tabIndex="-1">
@@ -209,7 +267,10 @@ const Nav = ({ isHome }) => {
 
   const ResumeLink = (
     <a className="resume-button" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-      Resume
+      <span>Resume</span>
+      <span className="arrow" aria-hidden="true">
+        ↗
+      </span>
     </a>
   );
 
@@ -219,64 +280,58 @@ const Nav = ({ isHome }) => {
         {prefersReducedMotion ? (
           <>
             {Logo}
-
             <StyledLinks>
               <ol>
                 {navLinks &&
                   navLinks.map(({ url, name }, i) => (
                     <li key={i}>
-                      <Link to={url}>{name}</Link>
+                      <Link to={url} onClick={e => handleSectionClick(e, url)}>
+                        {name}
+                      </Link>
                     </li>
                   ))}
               </ol>
               <div>{ResumeLink}</div>
             </StyledLinks>
-
             <Menu />
           </>
         ) : (
           <>
-            <TransitionGroup component={null}>
-              {isMounted && (
-                <CSSTransition classNames={fadeClass} timeout={timeout}>
-                  <>{Logo}</>
-                </CSSTransition>
-              )}
-            </TransitionGroup>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.1 }}>
+              {Logo}
+            </motion.div>
 
             <StyledLinks>
               <ol>
-                <TransitionGroup component={null}>
-                  {isMounted &&
-                    navLinks &&
-                    navLinks.map(({ url, name }, i) => (
-                      <CSSTransition key={i} classNames={fadeDownClass} timeout={timeout}>
-                        <li key={i} style={{ transitionDelay: `${isHome ? i * 100 : 0}ms` }}>
-                          <Link to={url}>{name}</Link>
-                        </li>
-                      </CSSTransition>
-                    ))}
-                </TransitionGroup>
+                {navLinks &&
+                  navLinks.map(({ url, name }, i) => (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, y: -16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: isHome ? i * 0.08 + 0.1 : 0 }}>
+                      <Link to={url} onClick={e => handleSectionClick(e, url)}>
+                        {name}
+                      </Link>
+                    </motion.li>
+                  ))}
               </ol>
 
-              <TransitionGroup component={null}>
-                {isMounted && (
-                  <CSSTransition classNames={fadeDownClass} timeout={timeout}>
-                    <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms` }}>
-                      {ResumeLink}
-                    </div>
-                  </CSSTransition>
-                )}
-              </TransitionGroup>
+              <motion.div
+                initial={{ opacity: 0, y: -16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.3,
+                  delay: isHome ? navLinks.length * 0.08 + 0.1 : 0,
+                }}>
+                {ResumeLink}
+              </motion.div>
             </StyledLinks>
 
-            <TransitionGroup component={null}>
-              {isMounted && (
-                <CSSTransition classNames={fadeClass} timeout={timeout}>
-                  <Menu />
-                </CSSTransition>
-              )}
-            </TransitionGroup>
+            <Menu />
           </>
         )}
       </StyledNav>

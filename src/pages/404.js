@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'gatsby';
 import { Helmet } from 'react-helmet';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { navDelay } from '@utils';
 import { Layout } from '@components';
 import { usePrefersReducedMotion } from '@hooks';
 
-const StyledMainContainer = styled.main`
+const StyledMainContainer = styled(motion.main)`
   ${({ theme }) => theme.mixins.flexCenter};
   flex-direction: column;
 `;
@@ -28,41 +27,20 @@ const StyledHomeButton = styled(Link)`
 `;
 
 const NotFoundPage = ({ location }) => {
-  const [isMounted, setIsMounted] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    const timeout = setTimeout(() => setIsMounted(true), navDelay);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  const content = (
-    <StyledMainContainer className="fillHeight">
-      <StyledTitle>404</StyledTitle>
-      <StyledSubtitle>Page Not Found</StyledSubtitle>
-      <StyledHomeButton to="/">Go Home</StyledHomeButton>
-    </StyledMainContainer>
-  );
 
   return (
     <Layout location={location}>
       <Helmet title="Page Not Found" />
-
-      {prefersReducedMotion ? (
-        <>{content}</>
-      ) : (
-        <TransitionGroup component={null}>
-          {isMounted && (
-            <CSSTransition timeout={500} classNames="fadeup">
-              {content}
-            </CSSTransition>
-          )}
-        </TransitionGroup>
-      )}
+      <StyledMainContainer
+        className="fillHeight"
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}>
+        <StyledTitle>404</StyledTitle>
+        <StyledSubtitle>Page Not Found</StyledSubtitle>
+        <StyledHomeButton to="/">Go Home</StyledHomeButton>
+      </StyledMainContainer>
     </Layout>
   );
 };

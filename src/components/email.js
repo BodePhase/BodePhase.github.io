@@ -9,6 +9,10 @@ const StyledLinkWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  padding: 8px 4px 0;
+  background-color: var(--navy);
+  box-shadow: 0 0 16px 12px var(--navy);
+  border-radius: 999px;
 
   &:after {
     content: '';
@@ -22,6 +26,8 @@ const StyledLinkWrapper = styled.div`
   a {
     margin: 20px auto;
     padding: 10px;
+    background-color: var(--navy);
+    border-radius: 8px;
     font-family: var(--font-mono);
     font-size: var(--fz-xxs);
     line-height: var(--fz-lg);

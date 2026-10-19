@@ -2,43 +2,46 @@ import { css } from 'styled-components';
 
 const variables = css`
   :root {
-    /* Il grigio opaco esatto dello sfondo di Hacknical */
-    --dark-navy: #1a1b1a; /* Leggermente più scuro per dare profondità */
-    --navy: #252625;      /* Il tuo colore esatto (Sfondo principale) */
-    --light-navy: #353635; /* Per i riquadri e i dettagli */
-    --lightest-navy: #454645;
-    --navy-shadow: rgba(0, 0, 0, 0.5);
-    
-    /* Colori dei testi */
-    --dark-slate: #5c606a; /* Il colore dell'ombra del logo e dei numeri in basso */
-    --slate: #8f96a3;
-    --light-slate: #c1c7d1;
-    --lightest-slate: #ffffff;
+    /* Palette Dark Charcoal & Glassmorphism */
+    --dark-navy: #141514;
+    --navy: #1e1f1e;
+    --light-navy: #2a2c2a;
+    --lightest-navy: #3a3d3a;
+    --navy-shadow: rgba(0, 0, 0, 0.6);
+    --glass-bg: rgba(42, 44, 42, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.08);
+
+    /* Tipografia e Testi */
+    --dark-slate: #5c626d;
+    --slate: #9aa1ae;
+    --light-slate: #c9cfd8;
+    --lightest-slate: #f3f5f8;
     --white: #ffffff;
-    
-    /* Il verde delle particelle e accenti */
+
+    /* Accenti Smeraldo */
     --green: #2ecc71;
-    --green-tint: rgba(46, 204, 113, 0.1);
-    
+    --green-tint: rgba(46, 204, 113, 0.12);
+    --green-glow: rgba(46, 204, 113, 0.25);
+
     --pink: #f57dff;
     --blue: #58a6ff;
 
-    /* I Font originali di Hacknical */
-    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --font-mono: 'Roboto Mono', 'SF Mono', monospace;
+    /* Pairing Tipografico Moderno */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
     --font-pixel: 'VT323', monospace;
 
     --fz-xxs: 12px;
     --fz-xs: 13px;
     --fz-sm: 14px;
     --fz-md: 16px;
-    --fz-lg: 18px;
-    --fz-xl: 20px;
+    --fz-lg: 17px;
+    --fz-xl: 19px;
     --fz-xxl: 22px;
     --fz-heading: 32px;
 
-    --border-radius: 2px;
-    --nav-height: 100px;
+    --border-radius: 8px;
+    --nav-height: 90px;
     --nav-scroll-height: 70px;
     --tab-height: 42px;
     --tab-width: 120px;

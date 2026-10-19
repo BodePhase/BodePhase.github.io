@@ -15,8 +15,9 @@ const button = css`
   &:hover,
   &:focus-visible {
     outline: none;
-    box-shadow: 4px 4px 0 0 var(--green);
-    transform: translate(-5px, -5px);
+    background-color: var(--green-tint);
+    box-shadow: 0 8px 20px -6px var(--green-glow), 3px 3px 0 0 var(--green);
+    transform: translate(-3px, -3px);
   }
   &:after {
     display: none !important;
@@ -77,10 +78,10 @@ const mixins = {
       width: 0;
       height: 1px;
       position: relative;
-      bottom: 0.1em; 
+      bottom: 0.1em;
       background-color: var(--green);
       transition: var(--transition);
-      opacity: 0.5; 
+      opacity: 0.6;
     }
   `,
 
@@ -101,8 +102,9 @@ const mixins = {
     &:hover,
     &:focus-visible {
       outline: none;
-      box-shadow: 3px 3px 0 0 var(--green);
-      transform: translate(-4px, -4px);
+      background-color: var(--green-tint);
+      box-shadow: 0 6px 16px -4px var(--green-glow), 2px 2px 0 0 var(--green);
+      transform: translate(-2px, -2px);
     }
     &:after {
       display: none !important;
@@ -124,8 +126,9 @@ const mixins = {
     &:hover,
     &:focus-visible {
       outline: none;
-      box-shadow: 4px 4px 0 0 var(--green);
-      transform: translate(-5px, -5px);
+      background-color: var(--green-tint);
+      box-shadow: 0 8px 22px -6px var(--green-glow), 3px 3px 0 0 var(--green);
+      transform: translate(-3px, -3px);
     }
     &:after {
       display: none !important;

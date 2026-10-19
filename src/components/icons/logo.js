@@ -13,16 +13,34 @@ const IconLogo = () => (
           strokeLinejoin="round"
           points="39 0 0 22 0 67 39 90 78 68 78 23"
         />
-        {/* Qui abbiamo inserito il testo "MF" centrato perfettamente nell'esagono */}
-        <text 
-          x="39" 
-          y="54" 
-          fill="currentColor" 
-          fontSize="28px" 
-          fontFamily="var(--font-sans)" 
-          fontWeight="bold" 
+        <polygon
+          stroke="currentColor"
+          strokeWidth="1.2"
+          strokeDasharray="6 4"
+          strokeOpacity="0.4"
+          fill="none"
+          points="39 8 7 26 7 63 39 82 71 64 71 27"
+        />
+        {/* Ombra 3D stile Pixel-Art coordinata con il titolo della Hero */}
+        <text
+          x="41.5"
+          y="58.5"
+          fill="var(--dark-slate)"
+          fontSize="44px"
+          fontFamily="var(--font-pixel)"
           textAnchor="middle"
-        >
+          letterSpacing="1px">
+          MF
+        </text>
+        {/* Monogramma principale MF in font VT323 */}
+        <text
+          x="39"
+          y="56"
+          fill="var(--lightest-slate)"
+          fontSize="44px"
+          fontFamily="var(--font-pixel)"
+          textAnchor="middle"
+          letterSpacing="1px">
           MF
         </text>
       </g>

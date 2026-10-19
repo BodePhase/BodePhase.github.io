@@ -14,7 +14,6 @@ const Layout = ({ children, location }) => {
   const isHome = location.pathname === '/';
   const [isLoading, setIsLoading] = useState(false);
 
-  // Sets target="_blank" rel="noopener noreferrer" on external links
   const handleExternalLinks = () => {
     const allLinks = Array.from(document.querySelectorAll('a'));
     if (allLinks.length > 0) {
@@ -33,18 +32,18 @@ const Layout = ({ children, location }) => {
     }
 
     if (location.hash) {
-      const id = location.hash.substring(1); // location.hash without the '#'
+      const id = location.hash.substring(1);
       setTimeout(() => {
         const el = document.getElementById(id);
         if (el) {
-          el.scrollIntoView();
-          el.focus();
+          el.scrollIntoView({ behavior: 'smooth' });
+          el.focus({ preventScroll: true });
         }
       }, 0);
     }
 
     handleExternalLinks();
-  }, [isLoading]);
+  }, [isLoading, location.hash]);
 
   return (
     <>
