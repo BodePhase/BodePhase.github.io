@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import { Head, Loader, Nav, Social, Email, Footer } from '@components';
+import { usePrefersReducedMotion } from '@hooks';
 import { GlobalStyle, theme } from '@styles';
 
 const StyledContent = styled.div`
@@ -19,7 +20,6 @@ const StyledCyberBackground = styled.div`
   pointer-events: none;
   overflow: hidden;
 
-  /* Griglia ingegneristica con sfumatura morbida sotto la navbar e ai bordi */
   .cyber-grid {
     position: absolute;
     inset: 0;
@@ -48,7 +48,6 @@ const StyledCyberBackground = styled.div`
     );
   }
 
-  /* Spotlight interattivo che segue il cursore e illumina la griglia */
   .cursor-spotlight {
     position: absolute;
     inset: 0;
@@ -61,13 +60,16 @@ const StyledCyberBackground = styled.div`
     transition: opacity 0.3s ease;
   }
 
-  /* Bagliori ambientali animati a bassa frequenza */
   .ambient-orb {
     position: absolute;
     border-radius: 50%;
     filter: blur(110px);
     opacity: 0.35;
     animation: floatOrb 18s ease-in-out infinite alternate;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
   }
 
   .orb-primary {
@@ -103,6 +105,7 @@ const StyledCyberBackground = styled.div`
 const Layout = ({ children, location }) => {
   const isHome = location.pathname === '/';
   const [isLoading, setIsLoading] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const handleExternalLinks = () => {
     const allLinks = Array.from(document.querySelectorAll('a'));
@@ -117,6 +120,14 @@ const Layout = ({ children, location }) => {
   };
 
   useEffect(() => {
+    if (prefersReducedMotion || typeof window === 'undefined') {
+      return;
+    }
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+    if (!hasFinePointer) {
+      return;
+    }
+
     let rafId = null;
     const handleMouseMove = e => {
       if (rafId) {
@@ -136,7 +147,7 @@ const Layout = ({ children, location }) => {
         window.cancelAnimationFrame(rafId);
       }
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     if (isLoading) {

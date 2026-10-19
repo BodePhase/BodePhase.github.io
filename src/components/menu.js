@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'gatsby';
+import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import { navLinks } from '@config';
@@ -75,7 +76,7 @@ const StyledHamburgerButton = styled.button`
       transition-property: transform;
     }
     &:before {
-      width: ${props => (props.menuOpen ? `100%` : `100%`)};
+      width: 100%;
       top: ${props => (props.menuOpen ? `0` : `-8px`)};
       opacity: ${props => (props.menuOpen ? 0 : 1)};
       transition: ${({ menuOpen }) =>
@@ -218,11 +219,27 @@ const itemVariants = {
   },
 };
 
-const Menu = () => {
+const Menu = ({ isHome = true }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const buttonRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
+
+  const handleMobileNavClick = (e, url) => {
+    setMenuOpen(false);
+    window.scrollTo({ left: 0 });
+    if (isHome && url.startsWith('/#')) {
+      e.preventDefault();
+      const id = url.replace('/#', '');
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          window.history.pushState(null, '', url);
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 180);
+    }
+  };
 
   useEffect(() => {
     const onKeyDown = e => {
@@ -257,7 +274,8 @@ const Menu = () => {
         onClick={toggleMenu}
         menuOpen={menuOpen}
         ref={buttonRef}
-        aria-label="Menu">
+        aria-label="Menu"
+        aria-expanded={menuOpen}>
         <div className="ham-box">
           <div className="ham-box-inner" />
         </div>
@@ -285,12 +303,7 @@ const Menu = () => {
                   <ol>
                     {navLinks.map(({ url, name }, i) => (
                       <motion.li key={i} variants={itemVariants}>
-                        <Link
-                          to={url}
-                          onClick={() => {
-                            setMenuOpen(false);
-                            window.scrollTo({ left: 0 });
-                          }}>
+                        <Link to={url} onClick={e => handleMobileNavClick(e, url)}>
                           {name}
                         </Link>
                       </motion.li>
@@ -315,6 +328,10 @@ const Menu = () => {
       </AnimatePresence>
     </StyledMenu>
   );
+};
+
+Menu.propTypes = {
+  isHome: PropTypes.bool,
 };
 
 export default Menu;

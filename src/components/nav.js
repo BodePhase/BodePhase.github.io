@@ -143,29 +143,49 @@ const StyledLinks = styled.div`
       font-size: var(--fz-xs);
 
       a {
+        position: relative;
         display: inline-flex;
         align-items: center;
         padding: 8px 14px;
         border-radius: 8px;
         color: var(--light-slate);
         font-weight: 500;
-        transition: var(--transition);
+        transition: color 0.2s ease;
 
-        &:before {
-          content: '0' counter(item) '.';
-          margin-right: 6px;
-          color: var(--green);
-          font-size: var(--fz-xxs);
-          font-weight: 600;
-          transition: transform 0.2s ease;
+        &.active {
+          color: var(--white);
+        }
+
+        .nav-active-pill {
+          position: absolute;
+          inset: 0;
+          border-radius: 8px;
+          background-color: var(--green-tint);
+          border: 1px solid rgba(46, 204, 113, 0.35);
+          z-index: 0;
+        }
+
+        .nav-text {
+          position: relative;
+          z-index: 1;
+          display: inline-flex;
+          align-items: center;
+
+          &:before {
+            content: '0' counter(item) '.';
+            margin-right: 6px;
+            color: var(--green);
+            font-size: var(--fz-xxs);
+            font-weight: 600;
+            transition: transform 0.2s ease;
+          }
         }
 
         &:hover,
         &:focus-visible {
           color: var(--white);
-          background-color: var(--green-tint);
 
-          &:before {
+          .nav-text:before {
             transform: translateY(-1px);
           }
         }
@@ -214,20 +234,44 @@ const StyledLinks = styled.div`
 const Nav = ({ isHome }) => {
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
+  const [activeSection, setActiveSection] = useState('');
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (prefersReducedMotion) {
+    const handleScroll = () => {
+      const isTop = window.scrollY < 50;
+      setScrolledToTop(isTop);
+      if (isTop) {
+        setActiveSection('');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!isHome || typeof IntersectionObserver === 'undefined') {
       return;
     }
 
-    const handleScroll = () => {
-      setScrolledToTop(window.pageYOffset < 50);
-    };
+    const sectionIds = navLinks.map(link => link.url.replace('/#', ''));
+    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [prefersReducedMotion]);
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-35% 0px -50% 0px', threshold: 0 },
+    );
+
+    sections.forEach(sec => observer.observe(sec));
+    return () => observer.disconnect();
+  }, [isHome]);
 
   const handleSectionClick = (e, url) => {
     if (isHome && url.startsWith('/#')) {
@@ -235,6 +279,7 @@ const Nav = ({ isHome }) => {
       const id = url.replace('/#', '');
       const el = document.getElementById(id);
       if (el) {
+        setActiveSection(id);
         window.history.pushState(null, '', url);
         el.scrollIntoView({ behavior: 'smooth' });
       }
@@ -244,7 +289,14 @@ const Nav = ({ isHome }) => {
   const Logo = (
     <div className="logo" tabIndex="-1">
       {isHome ? (
-        <a href="/" aria-label="home">
+        <a
+          href="/"
+          aria-label="home"
+          onClick={e => {
+            e.preventDefault();
+            setActiveSection('');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}>
           <div className="hex-container">
             <IconHex />
           </div>
@@ -283,17 +335,24 @@ const Nav = ({ isHome }) => {
             <StyledLinks>
               <ol>
                 {navLinks &&
-                  navLinks.map(({ url, name }, i) => (
-                    <li key={i}>
-                      <Link to={url} onClick={e => handleSectionClick(e, url)}>
-                        {name}
-                      </Link>
-                    </li>
-                  ))}
+                  navLinks.map(({ url, name }, i) => {
+                    const secId = url.replace('/#', '');
+                    const isActive = activeSection === secId;
+                    return (
+                      <li key={i}>
+                        <Link
+                          to={url}
+                          className={isActive ? 'active' : ''}
+                          onClick={e => handleSectionClick(e, url)}>
+                          <span className="nav-text">{name}</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
               </ol>
               <div>{ResumeLink}</div>
             </StyledLinks>
-            <Menu />
+            <Menu isHome={isHome} />
           </>
         ) : (
           <>
@@ -307,17 +366,31 @@ const Nav = ({ isHome }) => {
             <StyledLinks>
               <ol>
                 {navLinks &&
-                  navLinks.map(({ url, name }, i) => (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 0, y: -16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: isHome ? i * 0.08 + 0.1 : 0 }}>
-                      <Link to={url} onClick={e => handleSectionClick(e, url)}>
-                        {name}
-                      </Link>
-                    </motion.li>
-                  ))}
+                  navLinks.map(({ url, name }, i) => {
+                    const secId = url.replace('/#', '');
+                    const isActive = activeSection === secId;
+                    return (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, y: -16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: isHome ? i * 0.08 + 0.1 : 0 }}>
+                        <Link
+                          to={url}
+                          className={isActive ? 'active' : ''}
+                          onClick={e => handleSectionClick(e, url)}>
+                          {isActive && (
+                            <motion.span
+                              className="nav-active-pill"
+                              layoutId="activeNavPill"
+                              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                            />
+                          )}
+                          <span className="nav-text">{name}</span>
+                        </Link>
+                      </motion.li>
+                    );
+                  })}
               </ol>
 
               <motion.div
@@ -331,7 +404,7 @@ const Nav = ({ isHome }) => {
               </motion.div>
             </StyledLinks>
 
-            <Menu />
+            <Menu isHome={isHome} />
           </>
         )}
       </StyledNav>

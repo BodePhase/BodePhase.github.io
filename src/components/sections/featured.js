@@ -71,14 +71,6 @@ const StyledProject = styled(motion.li)`
         justify-content: flex-start;
         margin-left: 0;
       }
-
-      li {
-        margin: 0 0 6px 18px;
-
-        @media (max-width: 768px) {
-          margin: 0 8px 8px 0;
-        }
-      }
     }
     .project-links {
       justify-content: flex-end;
@@ -130,7 +122,8 @@ const StyledProject = styled(motion.li)`
     color: var(--green);
     font-family: var(--font-mono);
     font-size: var(--fz-xs);
-    font-weight: 400;
+    font-weight: 500;
+    letter-spacing: 0.04em;
 
     @media (max-width: 768px) {
       margin: 0 0 6px;
@@ -183,12 +176,12 @@ const StyledProject = styled(motion.li)`
   .project-tech-list {
     display: flex;
     flex-wrap: wrap;
+    gap: 8px;
     position: relative;
     z-index: 2;
-    margin: 22px 0 10px;
+    margin: 18px 0 10px;
     padding: 0;
     list-style: none;
-    /* Mantiene i tag fuori dalla colonna dell'immagine su Desktop */
     max-width: 80%;
 
     @media (max-width: 1080px) {
@@ -196,26 +189,29 @@ const StyledProject = styled(motion.li)`
     }
 
     li {
-      margin: 0 18px 6px 0;
-      color: var(--light-slate);
+      margin: 0;
+      padding: 4px 11px;
+      border-radius: 6px;
+      background-color: rgba(30, 31, 30, 0.92);
+      border: 1px solid rgba(46, 204, 113, 0.25);
+      color: var(--green);
       font-family: var(--font-mono);
-      font-size: var(--fz-xs);
+      font-size: var(--fz-xxs);
+      font-weight: 500;
       white-space: nowrap;
+      backdrop-filter: blur(8px);
+      transition: var(--transition);
+
+      &:hover {
+        background-color: var(--green-tint);
+        border-color: rgba(46, 204, 113, 0.5);
+        transform: translateY(-1px);
+      }
     }
 
     @media (max-width: 768px) {
       max-width: 100%;
       margin: 0 0 10px;
-
-      li {
-        margin: 0 8px 8px 0;
-        padding: 4px 10px;
-        border-radius: 6px;
-        background-color: var(--green-tint);
-        border: 1px solid rgba(46, 204, 113, 0.2);
-        color: var(--green);
-        font-size: var(--fz-xxs);
-      }
     }
   }
 
@@ -223,7 +219,7 @@ const StyledProject = styled(motion.li)`
     display: flex;
     align-items: center;
     position: relative;
-    margin-top: 10px;
+    margin-top: 8px;
     margin-left: -10px;
     color: var(--lightest-slate);
 
@@ -234,6 +230,14 @@ const StyledProject = styled(motion.li)`
     a {
       ${({ theme }) => theme.mixins.flexCenter};
       padding: 10px;
+      border-radius: 8px;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--green);
+        background-color: rgba(46, 204, 113, 0.08);
+        transform: translateY(-2px);
+      }
 
       &.external {
         svg {

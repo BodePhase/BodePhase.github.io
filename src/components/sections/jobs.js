@@ -115,6 +115,7 @@ const StyledTabPanel = styled(motion.div)`
   border-radius: 10px;
   background-color: rgba(36, 38, 36, 0.65);
   border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
 
   @media (max-width: 600px) {
     padding: 18px 16px;
@@ -128,7 +129,7 @@ const StyledTabPanel = styled(motion.div)`
   }
 
   h3 {
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     font-size: var(--fz-xxl);
     font-weight: 600;
     line-height: 1.3;
@@ -138,11 +139,27 @@ const StyledTabPanel = styled(motion.div)`
     }
   }
 
-  .range {
+  .job-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 20px;
-    color: var(--light-slate);
     font-family: var(--font-mono);
     font-size: var(--fz-xs);
+    color: var(--light-slate);
+
+    .location-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background-color: rgba(46, 204, 113, 0.08);
+      border: 1px solid rgba(46, 204, 113, 0.22);
+      color: var(--green);
+      font-size: 11px;
+    }
   }
 `;
 
@@ -281,7 +298,15 @@ const Jobs = () => {
                   </span>
                 </h3>
 
-                <p className="range">{activeJob.frontmatter.range}</p>
+                <div className="job-meta">
+                  <span>{activeJob.frontmatter.range}</span>
+                  {activeJob.frontmatter.location && (
+                    <span className="location-badge">
+                      <span aria-hidden="true">⌖</span>
+                      {activeJob.frontmatter.location}
+                    </span>
+                  )}
+                </div>
 
                 <div dangerouslySetInnerHTML={{ __html: activeJob.html }} />
               </StyledTabPanel>
