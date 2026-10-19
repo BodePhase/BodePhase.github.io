@@ -68,7 +68,6 @@ const StyledHeroSection = styled.section`
     white-space: nowrap;
   }
 
-  /* Scritta animata sopra al terminale e sotto "I build things for the web." */
   .engineering-tagline {
     display: inline-flex;
     align-items: center;
@@ -106,11 +105,10 @@ const StyledHeroSection = styled.section`
     }
   }
 
-  /* Finestra Terminale Interattivo */
   .hero-terminal {
     margin-top: clamp(18px, 3vw, 26px);
     width: 100%;
-    max-width: 640px;
+    max-width: 650px;
     background-color: rgba(22, 23, 22, 0.9);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -178,7 +176,7 @@ const StyledHeroSection = styled.section`
   .terminal-body {
     display: block;
     padding: 12px 16px;
-    max-height: 190px;
+    max-height: 220px;
     overflow-y: auto;
     font-size: clamp(12px, 2.2vw, 13.5px);
     line-height: 1.55;
@@ -207,7 +205,7 @@ const StyledHeroSection = styled.section`
   .history-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     margin-bottom: 8px;
   }
 
@@ -223,12 +221,70 @@ const StyledHeroSection = styled.section`
       color: var(--slate);
       padding-left: 12px;
       border-left: 2px solid rgba(46, 204, 113, 0.35);
-      margin-top: 3px;
+      margin-top: 4px;
       font-size: clamp(11.5px, 2.1vw, 13px);
 
       strong {
         color: var(--green);
         font-weight: 500;
+      }
+
+      a.term-link {
+        color: var(--green);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+    }
+  }
+
+  /* Layout ASCII + System Info per il comando neofetch */
+  .neofetch-box {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 4px 0;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    pre.ascii-art {
+      margin: 0;
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      line-height: 1.15;
+      text-shadow: 0 0 8px rgba(46, 204, 113, 0.25);
+      user-select: none;
+    }
+
+    .sys-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 12px;
+      line-height: 1.45;
+
+      .sys-header {
+        color: var(--lightest-slate);
+        font-weight: 600;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+        padding-bottom: 2px;
+        margin-bottom: 2px;
+      }
+
+      .palette-dots {
+        display: flex;
+        gap: 6px;
+        margin-top: 4px;
+        span {
+          width: 10px;
+          height: 10px;
+          border-radius: 3px;
+          display: inline-block;
+        }
       }
     }
   }
@@ -254,10 +310,11 @@ const StyledHeroSection = styled.section`
       font-family: var(--font-mono);
       font-size: clamp(12px, 2.2vw, 13.5px);
       caret-color: var(--green);
+      padding: 0;
+
       @media (max-width: 768px) {
         font-size: 16px;
       }
-      padding: 0;
 
       &::placeholder {
         color: var(--dark-slate);
@@ -345,7 +402,31 @@ const StyledHeroSection = styled.section`
 `;
 
 const TAGLINE_STRING = 'COMPUTER AND SYSTEMS ENGINEERING STUDENT';
-const QUICK_COMMANDS = ['help', 'whoami', 'skills', 'projects', 'contact', 'clear'];
+const QUICK_COMMANDS = ['help', 'neofetch', 'whoami', 'skills', 'chess', 'projects', 'clear'];
+const ALL_COMMANDS = [
+  'help',
+  'neofetch',
+  'whoami',
+  'about',
+  'skills',
+  'stack',
+  'chess',
+  'projects',
+  'ls',
+  'github',
+  'contact',
+  'email',
+  'resume',
+  'cv',
+  'sudo',
+  'clear',
+];
+
+const ASCII_HEX = `   /\\
+  /  \\
+ | MF |
+  \\  /
+   \\/`;
 
 const Hero = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -354,6 +435,8 @@ const Hero = () => {
   const [typedTagline, setTypedTagline] = useState(prefersReducedMotion ? TAGLINE_STRING : '');
   const [inputVal, setInputVal] = useState('');
   const [history, setHistory] = useState([]);
+  const [cmdLog, setCmdLog] = useState([]);
+  const [logIndex, setLogIndex] = useState(-1);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -396,10 +479,14 @@ const Hero = () => {
   };
 
   const executeCommand = rawCmd => {
-    const cmd = rawCmd.trim().toLowerCase();
+    const trimmed = rawCmd.trim();
+    const cmd = trimmed.toLowerCase();
     if (!cmd) {
       return;
     }
+
+    setCmdLog(prev => [...prev, trimmed]);
+    setLogIndex(-1);
 
     if (cmd === 'clear' || cmd === 'cls') {
       setHistory([]);
@@ -411,10 +498,42 @@ const Hero = () => {
       case 'help':
         response = (
           <span>
-            Available commands: <strong>whoami</strong>, <strong>skills</strong>,{' '}
-            <strong>projects</strong>, <strong>contact</strong>, <strong>resume</strong>,{' '}
-            <strong>clear</strong>
+            Commands: <strong>neofetch</strong>, <strong>whoami</strong>, <strong>skills</strong>,{' '}
+            <strong>chess</strong>, <strong>projects</strong>, <strong>github</strong>,{' '}
+            <strong>contact</strong>, <strong>resume</strong>, <strong>clear</strong> (Tip: use{' '}
+            <strong>Tab</strong> to autocomplete &amp; <strong>↑/↓</strong> for history)
           </span>
+        );
+        break;
+      case 'neofetch':
+        response = (
+          <div className="neofetch-box">
+            <pre className="ascii-art" aria-hidden="true">
+              {ASCII_HEX}
+            </pre>
+            <div className="sys-info">
+              <div className="sys-header">max@sapienza-roma</div>
+              <div>
+                <strong>OS:</strong> Linux WSL2 · Gatsby v5 / React 18
+              </div>
+              <div>
+                <strong>Degree:</strong> Computer &amp; Automation Eng.
+              </div>
+              <div>
+                <strong>Focus:</strong> Architecture, Cybersec &amp; AI
+              </div>
+              <div>
+                <strong>Theme:</strong> Cyber-Glass Emerald (#2ecc71)
+              </div>
+              <div className="palette-dots" aria-hidden="true">
+                <span style={{ background: '#141514', border: '1px solid #3a3d3a' }} />
+                <span style={{ background: '#2ecc71' }} />
+                <span style={{ background: '#1abc9c' }} />
+                <span style={{ background: '#58a6ff' }} />
+                <span style={{ background: '#f3f5f8' }} />
+              </div>
+            </div>
+          </div>
         );
         break;
       case 'whoami':
@@ -437,24 +556,46 @@ const Hero = () => {
           </span>
         );
         break;
+      case 'chess':
+        response = (
+          <span>
+            <strong>♟ Chess &amp; Algorithms:</strong> Creator of <strong>Torchfish</strong> (React
+            &amp; Vite Lichess-style chess interface with real-time move history and captured piece
+            tracking). Favorite response to 1.e4: <strong>Sicilian Defense (1...c5)</strong>.
+          </span>
+        );
+        break;
+      case 'github':
+        response = (
+          <span>
+            GitHub Profile:{' '}
+            <a
+              href="https://github.com/BodePhase"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="term-link">
+              github.com/BodePhase ↗
+            </a>
+          </span>
+        );
+        break;
       case 'projects':
       case 'ls':
         response = (
           <span>
-            Featured: <strong>01. Halcyon Theme</strong> | <strong>02. Spotify Profile</strong> |{' '}
-            <strong>03. Exam Schedule</strong> — Scrolling to #projects...
+            Scrolling to <strong>#projects</strong> section...
           </span>
         );
-        setTimeout(() => scrollToSection('projects'), 400);
+        setTimeout(() => scrollToSection('projects'), 350);
         break;
       case 'contact':
       case 'email':
         response = (
           <span>
-            Inbox: <strong>{email}</strong> — Scrolling to #contact...
+            Inbox: <strong>{email}</strong> — Scrolling to <strong>#contact</strong>...
           </span>
         );
-        setTimeout(() => scrollToSection('contact'), 400);
+        setTimeout(() => scrollToSection('contact'), 350);
         break;
       case 'resume':
       case 'cv':
@@ -478,13 +619,13 @@ const Hero = () => {
       default:
         response = (
           <span>
-            Command not found: <strong>{rawCmd}</strong>. Type <strong>help</strong> for available
+            Command not found: <strong>{trimmed}</strong>. Type <strong>help</strong> for available
             commands.
           </span>
         );
     }
 
-    setHistory(prev => [...prev, { cmd: rawCmd, output: response }]);
+    setHistory(prev => [...prev, { cmd: trimmed, output: response }]);
   };
 
   const handleKeyDown = e => {
@@ -492,6 +633,37 @@ const Hero = () => {
       e.preventDefault();
       executeCommand(inputVal);
       setInputVal('');
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      const current = inputVal.trim().toLowerCase();
+      if (!current) {
+        return;
+      }
+      const match = ALL_COMMANDS.find(c => c.startsWith(current));
+      if (match) {
+        setInputVal(match);
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (cmdLog.length === 0) {
+        return;
+      }
+      const nextIdx = logIndex === -1 ? cmdLog.length - 1 : Math.max(0, logIndex - 1);
+      setLogIndex(nextIdx);
+      setInputVal(cmdLog[nextIdx]);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (logIndex === -1) {
+        return;
+      }
+      if (logIndex + 1 >= cmdLog.length) {
+        setLogIndex(-1);
+        setInputVal('');
+      } else {
+        const nextIdx = logIndex + 1;
+        setLogIndex(nextIdx);
+        setInputVal(cmdLog[nextIdx]);
+      }
     }
   };
 
@@ -524,7 +696,8 @@ const Hero = () => {
 
       <label htmlFor="terminal-cmd-input" className="terminal-body" ref={terminalBodyRef}>
         <div className="term-welcome">
-          <span>●</span> Interactive shell ready — type <span>help</span> or click a command below.
+          <span>●</span> Interactive shell ready — type <span>neofetch</span>, <span>help</span> or
+          press <span>Tab</span> to autocomplete.
         </div>
 
         {history.length > 0 && (
@@ -549,7 +722,7 @@ const Hero = () => {
             value={inputVal}
             onChange={e => setInputVal(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="type a command..."
+            placeholder="type a command (e.g. neofetch)..."
             aria-label="Terminal command input"
             autoComplete="off"
             spellCheck="false"

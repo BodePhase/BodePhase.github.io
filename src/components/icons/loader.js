@@ -13,7 +13,7 @@ const IconLoader = () => (
         d="M 50, 5 L 11, 27 L 11, 72 L 50, 95 L 89, 73 L 89, 28 z"
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 1.4, ease: 'easeInOut' }}
+        transition={{ duration: 0.85, ease: 'easeInOut' }}
       />
       <motion.text
         x="52.5"
@@ -25,7 +25,7 @@ const IconLoader = () => (
         letterSpacing="1px"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.2, duration: 0.5, ease: 'easeOut' }}>
+        transition={{ delay: 0.55, duration: 0.35, ease: 'easeOut' }}>
         MF
       </motion.text>
       <motion.text
@@ -38,7 +38,7 @@ const IconLoader = () => (
         letterSpacing="1px"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.2, duration: 0.5, ease: 'easeOut' }}>
+        transition={{ delay: 0.55, duration: 0.35, ease: 'easeOut' }}>
         MF
       </motion.text>
     </g>

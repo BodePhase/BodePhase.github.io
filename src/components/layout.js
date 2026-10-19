@@ -104,8 +104,21 @@ const StyledCyberBackground = styled.div`
 
 const Layout = ({ children, location }) => {
   const isHome = location.pathname === '/';
-  const [isLoading, setIsLoading] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  const [isLoading, setIsLoading] = useState(() => {
+    if (!isHome || typeof window === 'undefined') {
+      return false;
+    }
+    return !window.sessionStorage.getItem('mf_portfolio_booted');
+  });
+
+  const handleFinishLoading = () => {
+    if (typeof window !== 'undefined') {
+      window.sessionStorage.setItem('mf_portfolio_booted', 'true');
+    }
+    setIsLoading(false);
+  };
 
   const handleExternalLinks = () => {
     const allLinks = Array.from(document.querySelectorAll('a'));
@@ -188,7 +201,7 @@ const Layout = ({ children, location }) => {
           </StyledCyberBackground>
 
           {isLoading && isHome ? (
-            <Loader finishLoading={() => setIsLoading(false)} />
+            <Loader finishLoading={handleFinishLoading} />
           ) : (
             <StyledContent>
               <Nav isHome={isHome} />
