@@ -1,103 +1,13 @@
-import React, { useState, useCallback, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import styled, { keyframes } from 'styled-components';
 import { usePrefersReducedMotion } from '@hooks';
 import { email } from '@config';
-import Particles from 'react-tsparticles';
-import { loadFull } from 'tsparticles';
 
 const blink = keyframes`
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
 `;
-
-const PARTICLES_OPTIONS = {
-  fullScreen: { enable: true, zIndex: 0 },
-  fpsLimit: 60,
-  detectRetina: true,
-  particles: {
-    number: {
-      value: 52,
-      density: { enable: true, value_area: 900 },
-    },
-    color: {
-      value: ['#2ecc71', '#1abc9c', '#52be80'],
-    },
-    links: {
-      enable: true,
-      color: '#2ecc71',
-      distance: 140,
-      opacity: 0.22,
-      width: 1,
-      triangles: {
-        enable: true,
-        color: '#2ecc71',
-        opacity: 0.025,
-      },
-    },
-    shape: { type: 'circle' },
-    opacity: {
-      value: 0.45,
-      random: true,
-      anim: {
-        enable: true,
-        speed: 0.8,
-        opacity_min: 0.15,
-        sync: false,
-      },
-    },
-    size: {
-      value: 2.8,
-      random: true,
-      anim: {
-        enable: true,
-        speed: 1.5,
-        size_min: 1,
-        sync: false,
-      },
-    },
-    move: {
-      enable: true,
-      speed: 0.6,
-      direction: 'none',
-      random: true,
-      straight: false,
-      out_mode: 'bounce',
-      attract: { enable: false },
-    },
-  },
-  interactivity: {
-    events: {
-      onHover: { enable: true, mode: 'grab' },
-      resize: true,
-    },
-    modes: {
-      grab: {
-        distance: 155,
-        line_linked: { opacity: 0.55 },
-      },
-    },
-  },
-};
-
-/* Componente memoizzato: impedisce il reset delle particelle quando si clicca o si scrive nel terminale */
-const HeroParticles = memo(({ onLoaded }) => {
-  const particlesInit = useCallback(async engine => {
-    await loadFull(engine);
-  }, []);
-
-  return (
-    <Particles
-      id="tsparticles"
-      className="particles-container"
-      init={particlesInit}
-      loaded={onLoaded}
-      options={PARTICLES_OPTIONS}
-    />
-  );
-});
-
-HeroParticles.displayName = 'HeroParticles';
 
 const StyledHeroSection = styled.section`
   ${({ theme }) => theme.mixins.flexCenter};
@@ -107,15 +17,6 @@ const StyledHeroSection = styled.section`
   padding: var(--nav-height) 0 40px;
   position: relative;
   width: 100%;
-
-  .particles-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-  }
 
   .hero-content {
     position: relative;
@@ -128,10 +29,7 @@ const StyledHeroSection = styled.section`
   }
 
   .hero-title-box {
-    background-color: var(--navy);
-    box-shadow: 0 0 28px 20px var(--navy);
-    border-radius: 12px;
-    padding: 8px 12px 10px 4px;
+    padding: 8px 0 6px 0;
     width: fit-content;
     max-width: 100%;
   }
@@ -177,7 +75,7 @@ const StyledHeroSection = styled.section`
     margin-top: clamp(16px, 3vw, 24px);
     padding: 8px 14px;
     border-left: 3px solid var(--green);
-    background: linear-gradient(90deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0) 100%);
+    background: linear-gradient(90deg, rgba(46, 204, 113, 0.12) 0%, rgba(46, 204, 113, 0.02) 100%);
     border-radius: 0 8px 8px 0;
     font-family: var(--font-mono);
     font-size: clamp(11px, 2.4vw, 15px);
@@ -187,6 +85,7 @@ const StyledHeroSection = styled.section`
     max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
+    backdrop-filter: blur(6px);
 
     .prompt-symbol {
       color: var(--green);
@@ -212,17 +111,19 @@ const StyledHeroSection = styled.section`
     margin-top: clamp(18px, 3vw, 26px);
     width: 100%;
     max-width: 640px;
-    background-color: #161716;
+    background-color: rgba(22, 23, 22, 0.9);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border: 1px solid rgba(46, 204, 113, 0.32);
     border-radius: 12px;
-    box-shadow: 0 18px 40px -15px rgba(0, 0, 0, 0.85), 0 0 25px 18px var(--navy);
+    box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.85);
     overflow: hidden;
     font-family: var(--font-mono);
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
 
     &:focus-within {
       border-color: rgba(46, 204, 113, 0.7);
-      box-shadow: 0 20px 45px -12px rgba(46, 204, 113, 0.18), 0 0 25px 18px var(--navy);
+      box-shadow: 0 20px 45px -12px rgba(46, 204, 113, 0.2);
     }
   }
 
@@ -231,7 +132,7 @@ const StyledHeroSection = styled.section`
     align-items: center;
     justify-content: space-between;
     padding: 8px 14px;
-    background-color: #202220;
+    background-color: rgba(32, 34, 32, 0.95);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     user-select: none;
 
@@ -353,6 +254,9 @@ const StyledHeroSection = styled.section`
       font-family: var(--font-mono);
       font-size: clamp(12px, 2.2vw, 13.5px);
       caret-color: var(--green);
+      @media (max-width: 768px) {
+        font-size: 16px;
+      }
       padding: 0;
 
       &::placeholder {
@@ -409,11 +313,11 @@ const StyledHeroSection = styled.section`
     font-weight: 500;
     letter-spacing: 0.03em;
     color: var(--green);
-    background: linear-gradient(135deg, rgba(46, 204, 113, 0.14) 0%, rgba(30, 31, 30, 0.98) 100%),
-      var(--navy);
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.14) 0%, rgba(30, 31, 30, 0.9) 100%);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(46, 204, 113, 0.65);
     border-radius: 10px;
-    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.7), 0 0 24px 16px var(--navy);
+    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.7);
     white-space: nowrap;
     transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
 
@@ -427,11 +331,9 @@ const StyledHeroSection = styled.section`
     &:hover,
     &:focus-visible {
       color: var(--lightest-slate);
-      background: linear-gradient(135deg, rgba(46, 204, 113, 0.26) 0%, rgba(30, 31, 30, 0.98) 100%),
-        var(--navy);
+      background: linear-gradient(135deg, rgba(46, 204, 113, 0.26) 0%, rgba(30, 31, 30, 0.95) 100%);
       border-color: var(--green);
-      box-shadow: 0 12px 28px -6px var(--green-glow), 3px 3px 0 0 var(--green),
-        0 0 24px 16px var(--navy);
+      box-shadow: 0 12px 28px -6px var(--green-glow), 3px 3px 0 0 var(--green);
       transform: translate(-3px, -3px);
 
       .cta-arrow {
@@ -447,14 +349,12 @@ const QUICK_COMMANDS = ['help', 'whoami', 'skills', 'projects', 'contact', 'clea
 
 const Hero = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
-  const particlesContainerRef = useRef(null);
   const terminalBodyRef = useRef(null);
 
   const [typedTagline, setTypedTagline] = useState(prefersReducedMotion ? TAGLINE_STRING : '');
   const [inputVal, setInputVal] = useState('');
   const [history, setHistory] = useState([]);
 
-  /* Digita gradualmente COMPUTER AND SYSTEMS ENGINEERING STUDENT sotto "I build things for the web." */
   useEffect(() => {
     if (prefersReducedMotion) {
       setTypedTagline(TAGLINE_STRING);
@@ -595,42 +495,6 @@ const Hero = () => {
     }
   };
 
-  const particlesLoaded = useCallback(async container => {
-    particlesContainerRef.current = container;
-  }, []);
-
-  useEffect(() => {
-    const protectedSelector = [
-      'a',
-      'button',
-      'header',
-      '.hero-title-box',
-      '.hero-terminal',
-      '.resume-cta',
-      '#about',
-      '#jobs',
-      '#projects',
-      '#contact .numbered-heading',
-      '#contact .contact-card',
-    ].join(', ');
-
-    const handleMouseMove = e => {
-      const container = particlesContainerRef.current;
-      if (!container || !container.interactivity) {
-        return;
-      }
-      if (e.target && e.target.closest && e.target.closest(protectedSelector)) {
-        container.interactivity.status = 'mouseleave';
-        if (container.interactivity.mouse) {
-          container.interactivity.mouse.position = undefined;
-        }
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
   const one = <h1>Hi, my name is</h1>;
   const two = <h2 className="pixel-name">Massimiliano Favetta.</h2>;
   const three = <h3 className="hero-subtitle">I build things for the web.</h3>;
@@ -664,7 +528,7 @@ const Hero = () => {
         </div>
 
         {history.length > 0 && (
-          <div className="history-list">
+          <div className="history-list" aria-live="polite">
             {history.map((item, idx) => (
               <div className="history-item" key={idx}>
                 <div className="cmd-echo">
@@ -719,8 +583,6 @@ const Hero = () => {
 
   return (
     <StyledHeroSection>
-      <HeroParticles onLoaded={particlesLoaded} />
-
       <div className="hero-content">
         <div className="hero-title-box">
           {prefersReducedMotion ? (

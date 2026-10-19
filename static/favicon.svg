@@ -1,3 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 86 98" width="512" height="512"><metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"><rdf:Description><dc:creator>RealFaviconGenerator</dc:creator><dc:source>https://realfavicongenerator.net</dc:source></rdf:Description></rdf:RDF></metadata><polygon stroke="#2ecc71" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="#252625" points="39 0 0 22 0 67 39 90 78 68 78 23"></polygon><text x="39" y="56" fill="#ffffff" font-size="32px" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle">
-    MF
-  </text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 86 98" width="512" height="512">
+  <polygon stroke="#2ecc71" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="#1e1f1e" points="39 0 0 22 0 67 39 90 78 68 78 23" />
+  <polygon stroke="#2ecc71" stroke-width="1.2" stroke-dasharray="6 4" stroke-opacity="0.45" fill="none" points="39 8 7 26 7 63 39 82 71 64 71 27" />
+  <text x="41.5" y="57.5" fill="#5c626d" font-size="34px" font-family="monospace" font-weight="bold" text-anchor="middle">MF</text>
+  <text x="39" y="55" fill="#f3f5f8" font-size="34px" font-family="monospace" font-weight="bold" text-anchor="middle">MF</text>
+</svg>

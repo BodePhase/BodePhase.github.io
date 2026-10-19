@@ -4,7 +4,7 @@ module.exports = {
   siteMetadata: {
     title: 'Massimiliano Favetta',
     description: 'Massimiliano Favetta is a software and systems engineer student.',
-    siteUrl: 'https://massimilianofavetta.com',
+    siteUrl: 'https://BodePhase.github.io',
     image: '/og.png',
     twitterUsername: '',
   },

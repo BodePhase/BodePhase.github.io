@@ -8,9 +8,10 @@ const StyledFooter = styled.footer`
   ${({ theme }) => theme.mixins.flexCenter};
   flex-direction: column;
   height: auto;
-  min-height: 70px;
-  padding: 15px;
+  min-height: 80px;
+  padding: 20px 15px 30px;
   text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 `;
 
 const StyledSocialLinks = styled.div`
@@ -20,7 +21,7 @@ const StyledSocialLinks = styled.div`
     display: block;
     width: 100%;
     max-width: 270px;
-    margin: 0 auto 10px;
+    margin: 0 auto 14px;
     color: var(--light-slate);
   }
 
@@ -41,17 +42,45 @@ const StyledSocialLinks = styled.div`
 `;
 
 const StyledCredit = styled.div`
-  color: var(--light-slate);
+  color: var(--slate);
   font-family: var(--font-mono);
   font-size: var(--fz-xxs);
-  line-height: 1;
+  line-height: 1.6;
 
   a {
-    padding: 10px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    transition: var(--transition);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--green);
+      background-color: rgba(46, 204, 113, 0.05);
+    }
+  }
+
+  .status-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--light-slate);
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
   }
 
   .github-stats {
-    margin-top: 10px;
+    margin-top: 2px;
 
     & > span {
       display: inline-flex;
@@ -77,14 +106,16 @@ const Footer = () => {
     if (process.env.NODE_ENV !== 'production') {
       return;
     }
-    fetch('https://api.github.com/repos/bchiang7/v4')
+    fetch('https://api.github.com/repos/BodePhase/BodePhase.github.io')
       .then(response => response.json())
       .then(json => {
         const { stargazers_count, forks_count } = json;
-        setGitHubInfo({
-          stars: stargazers_count,
-          forks: forks_count,
-        });
+        if (typeof stargazers_count === 'number' && typeof forks_count === 'number') {
+          setGitHubInfo({
+            stars: stargazers_count,
+            forks: forks_count,
+          });
+        }
       })
       .catch(e => console.error(e));
   }, []);
@@ -96,7 +127,7 @@ const Footer = () => {
           {socialMedia &&
             socialMedia.map(({ name, url }, i) => (
               <li key={i}>
-                <a href={url} aria-label={name}>
+                <a href={url} aria-label={name} target="_blank" rel="noreferrer">
                   <Icon name={name} />
                 </a>
               </li>
@@ -104,11 +135,17 @@ const Footer = () => {
         </ul>
       </StyledSocialLinks>
 
-      <StyledCredit tabindex="-1">
-        <a href="https://github.com/bchiang7/v4">
-          <div>Designed &amp; Built by Max</div>
+      <StyledCredit tabIndex="-1">
+        <a
+          href="https://github.com/BodePhase/BodePhase.github.io"
+          target="_blank"
+          rel="noopener noreferrer">
+          <div className="status-line">
+            <span className="dot" aria-hidden="true" />
+            <span>Designed &amp; Built by Massimiliano Favetta</span>
+          </div>
 
-          {githubInfo.stars && githubInfo.forks && (
+          {githubInfo.stars !== null && githubInfo.forks !== null && (
             <div className="github-stats">
               <span>
                 <Icon name="Star" />

@@ -12,9 +12,6 @@ const StyledSocialList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-  background-color: var(--navy);
-  box-shadow: 0 0 18px 14px var(--navy);
-  border-radius: 999px;
 
   &:after {
     content: '';
@@ -37,8 +34,6 @@ const StyledSocialList = styled.ul`
       width: 40px;
       height: 40px;
       padding: 0;
-      background-color: var(--navy);
-      border-radius: 50%;
 
       &:hover,
       &:focus {

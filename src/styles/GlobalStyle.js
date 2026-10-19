@@ -137,6 +137,8 @@ const GlobalStyle = createGlobalStyle`
     padding: 100px 0;
     max-width: 1000px;
     width: 100%;
+    position: relative;
+    z-index: 1;
 
     @media (max-width: 768px) {
       padding: 80px 0;
@@ -145,6 +147,11 @@ const GlobalStyle = createGlobalStyle`
     @media (max-width: 480px) {
       padding: 60px 0;
     }
+  }
+
+  footer {
+    position: relative;
+    z-index: 1;
   }
 
   h1,
@@ -425,12 +432,12 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
-  /* Glassmorphism solido per le card dei progetti */
+  /* Glassmorphism per le card dei progetti */
   @media (min-width: 769px) {
     #projects .project-description,
     .project-inner,
     .post__inner {
-      background-color: rgba(36, 38, 36, 0.98) !important;
+      background-color: rgba(36, 38, 36, 0.96) !important;
       box-shadow: 0 20px 35px -15px rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -441,43 +448,6 @@ const GlobalStyle = createGlobalStyle`
         border-color: rgba(46, 204, 113, 0.3);
       }
     }
-  }
-
-  /* Porta tutte le sezioni e il footer sopra il livello 0 delle particelle */
-  section,
-  footer {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Maschera continua per About, Jobs e Projects: zero particelle tra titoli, foto, descrizioni e tech list */
-  #about,
-  #jobs,
-  #projects {
-    background-color: var(--navy);
-    box-shadow: 0 0 35px 25px var(--navy);
-    border-radius: 16px;
-  }
-
-  #contact .numbered-heading {
-    position: relative;
-    z-index: 2;
-    background-color: var(--navy);
-    box-shadow: 0 0 24px 18px var(--navy);
-    border-radius: 10px;
-  }
-
-  /* Bottoni Technologies in About Me 100% opachi */
-  #about ul.skills-list li {
-    background: linear-gradient(135deg, rgba(46, 204, 113, 0.08) 0%, rgba(46, 204, 113, 0.04) 100%),
-      var(--navy) !important;
-  }
-
-  /* Maschera per il testo del Footer */
-  footer a {
-    background-color: var(--navy);
-    box-shadow: 0 0 14px 10px var(--navy);
-    border-radius: 8px;
   }
 
   ${PrismStyles};
