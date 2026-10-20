@@ -29,8 +29,9 @@
 
 2. **Install dependencies:**
 
+   ```bash
    npm install --legacy-peer-deps
-
+   ```
 
 3. **Start the development server:**
 

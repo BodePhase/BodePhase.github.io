@@ -67,7 +67,6 @@ const Head = ({ title = null, description = null, image = null }) => {
         rel="stylesheet"
       />
 
-      <link rel="icon" href="/favicon.ico" sizes="any" />
       <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     </Helmet>

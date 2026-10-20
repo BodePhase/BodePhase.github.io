@@ -49,7 +49,7 @@ const StyledHeroSection = styled.section`
 
   .pixel-name {
     font-family: var(--font-pixel);
-    font-size: clamp(34px, 9.2vw, 98px);
+    font-size: clamp(35px, 9.3vw, 98px);
     color: var(--lightest-slate);
     text-shadow: 3px 3px 0px var(--dark-slate);
     line-height: 0.95;
@@ -57,11 +57,12 @@ const StyledHeroSection = styled.section`
     white-space: nowrap;
   }
 
+  /* Calibrato per pareggiare la larghezza visiva del nome restando su una sola riga */
   .hero-subtitle {
     margin: 10px 0 0 0;
     color: var(--slate);
     font-family: 'Space Grotesk', var(--font-sans);
-    font-size: clamp(21px, 6.2vw, 72px);
+    font-size: clamp(23.5px, 6.7vw, 75px);
     line-height: 1.08;
     font-weight: 700;
     letter-spacing: -0.03em;
@@ -71,16 +72,16 @@ const StyledHeroSection = styled.section`
   .engineering-tagline {
     display: inline-flex;
     align-items: center;
-    margin-top: clamp(16px, 3vw, 24px);
-    padding: 8px 14px;
+    margin-top: clamp(14px, 2.8vw, 22px);
+    padding: 7px 12px;
     border-left: 3px solid var(--green);
     background: linear-gradient(90deg, rgba(46, 204, 113, 0.12) 0%, rgba(46, 204, 113, 0.02) 100%);
     border-radius: 0 8px 8px 0;
     font-family: var(--font-mono);
-    font-size: clamp(11px, 2.4vw, 15px);
+    font-size: clamp(10.5px, 2.35vw, 15px);
     font-weight: 500;
     color: var(--lightest-slate);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
@@ -89,7 +90,7 @@ const StyledHeroSection = styled.section`
     .prompt-symbol {
       color: var(--green);
       font-weight: 700;
-      margin-right: 10px;
+      margin-right: 8px;
       text-shadow: 0 0 8px var(--green-glow);
     }
 
@@ -106,7 +107,7 @@ const StyledHeroSection = styled.section`
   }
 
   .hero-terminal {
-    margin-top: clamp(18px, 3vw, 26px);
+    margin-top: clamp(16px, 2.8vw, 24px);
     width: 100%;
     max-width: 650px;
     background-color: rgba(22, 23, 22, 0.9);
@@ -129,17 +130,17 @@ const StyledHeroSection = styled.section`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 14px;
+    padding: 7px 14px;
     background-color: rgba(32, 34, 32, 0.95);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     user-select: none;
 
     .dots {
       display: flex;
-      gap: 7px;
+      gap: 6px;
       span {
-        width: 10px;
-        height: 10px;
+        width: 9px;
+        height: 9px;
         border-radius: 50%;
         display: inline-block;
       }
@@ -160,7 +161,8 @@ const StyledHeroSection = styled.section`
     .term-title {
       font-size: 11px;
       color: var(--slate);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
     }
 
     .term-badge {
@@ -168,20 +170,26 @@ const StyledHeroSection = styled.section`
       color: var(--green);
       background-color: rgba(46, 204, 113, 0.1);
       border: 1px solid rgba(46, 204, 113, 0.25);
-      padding: 2px 7px;
+      padding: 1px 7px;
       border-radius: 999px;
+      white-space: nowrap;
     }
   }
 
   .terminal-body {
     display: block;
-    padding: 12px 16px;
-    max-height: 220px;
+    padding: 10px 14px;
+    max-height: 200px;
     overflow-y: auto;
-    font-size: clamp(12px, 2.2vw, 13.5px);
-    line-height: 1.55;
+    font-size: clamp(11.5px, 2.2vw, 13.5px);
+    line-height: 1.5;
     color: var(--light-slate);
     cursor: text;
+
+    @media (max-width: 480px) {
+      padding: 8px 12px;
+      max-height: 170px;
+    }
 
     &::-webkit-scrollbar {
       width: 6px;
@@ -192,10 +200,14 @@ const StyledHeroSection = styled.section`
     }
   }
 
+  /* Messaggio di stato compatto sempre su una singola riga */
   .term-welcome {
     color: var(--dark-slate);
-    font-size: clamp(11px, 2vw, 12.5px);
-    margin-bottom: 8px;
+    font-size: clamp(10.5px, 2.2vw, 12.5px);
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     span {
       color: var(--green);
@@ -205,8 +217,8 @@ const StyledHeroSection = styled.section`
   .history-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 8px;
+    gap: 8px;
+    margin-bottom: 6px;
   }
 
   .history-item {
@@ -214,15 +226,15 @@ const StyledHeroSection = styled.section`
       color: var(--lightest-slate);
       .user-host {
         color: var(--green);
-        margin-right: 8px;
+        margin-right: 6px;
       }
     }
     .cmd-output {
       color: var(--slate);
-      padding-left: 12px;
+      padding-left: 10px;
       border-left: 2px solid rgba(46, 204, 113, 0.35);
-      margin-top: 4px;
-      font-size: clamp(11.5px, 2.1vw, 13px);
+      margin-top: 3px;
+      font-size: clamp(11px, 2.1vw, 13px);
 
       strong {
         color: var(--green);
@@ -237,24 +249,21 @@ const StyledHeroSection = styled.section`
     }
   }
 
-  /* Layout ASCII + System Info per il comando neofetch */
   .neofetch-box {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
     padding: 4px 0;
 
     @media (max-width: 480px) {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
+      gap: 12px;
     }
 
     pre.ascii-art {
       margin: 0;
       color: var(--green);
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 9.5px;
       line-height: 1.15;
       text-shadow: 0 0 8px rgba(46, 204, 113, 0.25);
       user-select: none;
@@ -264,8 +273,8 @@ const StyledHeroSection = styled.section`
       display: flex;
       flex-direction: column;
       gap: 2px;
-      font-size: 12px;
-      line-height: 1.45;
+      font-size: 11.5px;
+      line-height: 1.4;
 
       .sys-header {
         color: var(--lightest-slate);
@@ -280,8 +289,8 @@ const StyledHeroSection = styled.section`
         gap: 6px;
         margin-top: 4px;
         span {
-          width: 10px;
-          height: 10px;
+          width: 9px;
+          height: 9px;
           border-radius: 3px;
           display: inline-block;
         }
@@ -292,7 +301,7 @@ const StyledHeroSection = styled.section`
   .input-line {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 
     .user-host {
       color: var(--green);
@@ -308,12 +317,17 @@ const StyledHeroSection = styled.section`
       border: none;
       color: var(--lightest-slate);
       font-family: var(--font-mono);
-      font-size: clamp(12px, 2.2vw, 13.5px);
+      font-size: 13.5px;
       caret-color: var(--green);
       padding: 0;
 
+      /* Anti-zoom iOS Safari (16px reali, scalati a 12.5px visivi per stare su 1 riga) */
       @media (max-width: 768px) {
         font-size: 16px;
+        transform: scale(0.78);
+        transform-origin: left center;
+        width: 128%;
+        margin-right: -28%;
       }
 
       &::placeholder {
@@ -323,30 +337,46 @@ const StyledHeroSection = styled.section`
     }
   }
 
+  /* Barra pulsanti su una sola riga a scorrimento orizzontale su smartphone */
   .terminal-QuickBar {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 6px;
-    padding: 8px 14px;
+    padding: 6px 14px;
     background-color: rgba(255, 255, 255, 0.02);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      padding: 6px 12px;
+      gap: 5px;
+    }
 
     .quick-label {
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--dark-slate);
-      margin-right: 4px;
+      margin-right: 2px;
+      white-space: nowrap;
       user-select: none;
+      flex-shrink: 0;
     }
 
     button.cmd-chip {
-      padding: 3px 9px;
+      flex-shrink: 0;
+      padding: 3px 8px;
       border-radius: 6px;
       background-color: rgba(46, 204, 113, 0.07);
       border: 1px solid rgba(46, 204, 113, 0.22);
       color: var(--light-slate);
       font-family: var(--font-mono);
       font-size: 11px;
+      white-space: nowrap;
       transition: var(--transition);
 
       &:hover,
@@ -363,10 +393,10 @@ const StyledHeroSection = styled.section`
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    margin-top: clamp(24px, 4vw, 34px);
-    padding: clamp(13px, 2.8vw, 18px) clamp(22px, 4.5vw, 32px);
+    margin-top: clamp(20px, 3.8vw, 32px);
+    padding: clamp(12px, 2.6vw, 17px) clamp(20px, 4.2vw, 30px);
     font-family: var(--font-mono);
-    font-size: clamp(13px, 2.5vw, 15px);
+    font-size: clamp(12.5px, 2.4vw, 15px);
     font-weight: 500;
     letter-spacing: 0.03em;
     color: var(--green);
@@ -501,7 +531,7 @@ const Hero = () => {
             Commands: <strong>neofetch</strong>, <strong>whoami</strong>, <strong>skills</strong>,{' '}
             <strong>chess</strong>, <strong>projects</strong>, <strong>github</strong>,{' '}
             <strong>contact</strong>, <strong>resume</strong>, <strong>clear</strong> (Tip: use{' '}
-            <strong>Tab</strong> to autocomplete &amp; <strong>↑/↓</strong> for history)
+            <strong>Tab</strong> &amp; <strong>↑/↓</strong>)
           </span>
         );
         break;
@@ -583,7 +613,8 @@ const Hero = () => {
       case 'ls':
         response = (
           <span>
-            Featured: <strong>01. Torchfish</strong> · <strong>02. whodontfollowyou</strong> · <strong>03. Exam Schedule</strong> — Scrolling to #projects...
+            Featured: <strong>01. Torchfish</strong> · <strong>02. whodontfollowyou</strong> ·{' '}
+            <strong>03. Exam Schedule</strong> — Scrolling to #projects...
           </span>
         );
         setTimeout(() => scrollToSection('projects'), 350);
@@ -696,8 +727,7 @@ const Hero = () => {
 
       <label htmlFor="terminal-cmd-input" className="terminal-body" ref={terminalBodyRef}>
         <div className="term-welcome">
-          <span>●</span> Interactive shell ready — type <span>neofetch</span>, <span>help</span> or
-          press <span>Tab</span> to autocomplete.
+          <span>●</span> Shell ready — type <span>neofetch</span>, <span>help</span> or tap below:
         </div>
 
         {history.length > 0 && (
@@ -722,7 +752,7 @@ const Hero = () => {
             value={inputVal}
             onChange={e => setInputVal(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="type a command (e.g. neofetch)..."
+            placeholder="type 'help' or 'neofetch'..."
             aria-label="Terminal command input"
             autoComplete="off"
             spellCheck="false"
@@ -731,7 +761,7 @@ const Hero = () => {
       </label>
 
       <div className="terminal-QuickBar">
-        <span className="quick-label">Quick run:</span>
+        <span className="quick-label">Run:</span>
         {QUICK_COMMANDS.map(cmd => (
           <button
             key={cmd}

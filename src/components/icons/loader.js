@@ -6,41 +6,30 @@ const IconLoader = () => (
     <title>Loader Logo</title>
     <g>
       <motion.path
-        stroke="currentColor"
-        strokeWidth="5"
+        stroke="var(--green)"
+        strokeWidth="5.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M 50, 5 L 11, 27 L 11, 72 L 50, 95 L 89, 73 L 89, 28 z"
+        d="M 50, 4 L 91, 27 L 91, 73 L 50, 96 L 9, 73 L 9, 27 z"
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 0.85, ease: 'easeInOut' }}
+        transition={{ duration: 0.8, ease: 'easeInOut' }}
       />
-      <motion.text
-        x="52.5"
-        y="63.5"
-        fill="var(--dark-slate)"
-        fontSize="46px"
-        fontFamily="var(--font-pixel)"
-        textAnchor="middle"
-        letterSpacing="1px"
-        initial={{ opacity: 0, scale: 0.8 }}
+      <motion.g
+        initial={{ opacity: 0, scale: 0.82 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.55, duration: 0.35, ease: 'easeOut' }}>
-        MF
-      </motion.text>
-      <motion.text
-        x="50"
-        y="61"
-        fill="var(--lightest-slate)"
-        fontSize="46px"
-        fontFamily="var(--font-pixel)"
-        textAnchor="middle"
-        letterSpacing="1px"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.55, duration: 0.35, ease: 'easeOut' }}>
-        MF
-      </motion.text>
+        transition={{ delay: 0.5, duration: 0.35, ease: 'easeOut' }}
+        style={{ transformOrigin: '50px 50px' }}>
+        <path
+          fill="var(--lightest-slate)"
+          d="M 22,66 L 22,34 L 29.5,34 L 37,46.5 L 44.5,34 L 52,34 L 52,66 L 45,66 L 45,45.5 L 37,58 L 29,45.5 L 29,66 Z"
+        />
+        <path
+          fill="var(--lightest-slate)"
+          d="M 57,66 L 57,34 L 79,34 L 79,40.5 L 64,40.5 L 64,47.5 L 76,47.5 L 76,54 L 64,54 L 64,66 Z"
+        />
+        <rect x="71" y="59" width="7" height="7" rx="1.2" fill="var(--green)" />
+      </motion.g>
     </g>
   </svg>
 );
