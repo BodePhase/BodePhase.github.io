@@ -752,7 +752,7 @@ const Hero = () => {
             value={inputVal}
             onChange={e => setInputVal(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="type 'help' or 'neofetch'..."
+            placeholder="type a command..."
             aria-label="Terminal command input"
             autoComplete="off"
             spellCheck="false"

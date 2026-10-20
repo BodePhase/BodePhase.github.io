@@ -17,7 +17,7 @@ const pulse = keyframes`
 `;
 
 const StyledContactSection = styled(motion.section)`
-  max-width: 900px;
+  max-width: 680px;
   margin: 0 auto 100px;
 
   @media (max-width: 768px) {
