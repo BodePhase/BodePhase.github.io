@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
@@ -31,8 +30,12 @@ const StyledLoader = styled(motion.div)`
 
 const Loader = ({ finishLoading }) => {
   useEffect(() => {
+    document.body.classList.add('hidden');
     const timeout = setTimeout(() => finishLoading(), 1400);
-    return () => clearTimeout(timeout);
+    return () => {
+      document.body.classList.remove('hidden');
+      clearTimeout(timeout);
+    };
   }, [finishLoading]);
 
   return (
@@ -41,7 +44,6 @@ const Loader = ({ finishLoading }) => {
       initial={{ opacity: 1 }}
       animate={{ opacity: 0, transitionEnd: { zIndex: -1 } }}
       transition={{ delay: 1.15, duration: 0.25, ease: 'easeInOut' }}>
-      <Helmet bodyAttributes={{ class: `hidden` }} />
       <motion.div
         className="logo-wrapper"
         initial={{ scale: 0.9, opacity: 0 }}

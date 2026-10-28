@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Helmet } from 'react-helmet';
 import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -225,6 +224,11 @@ const Menu = ({ isHome = true }) => {
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
+  useEffect(() => {
+    document.body.classList.toggle('blur', menuOpen);
+    return () => document.body.classList.remove('blur');
+  }, [menuOpen]);
+
   const handleMobileNavClick = (e, url) => {
     setMenuOpen(false);
     window.scrollTo({ left: 0 });
@@ -266,9 +270,6 @@ const Menu = ({ isHome = true }) => {
 
   return (
     <StyledMenu>
-      <Helmet>
-        <body className={menuOpen ? 'blur' : ''} />
-      </Helmet>
 
       <StyledHamburgerButton
         onClick={toggleMenu}
