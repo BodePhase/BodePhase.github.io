@@ -704,10 +704,7 @@ const Hero = () => {
   const four = (
     <div className="engineering-tagline" aria-label={TAGLINE_STRING}>
       <span className="prompt-symbol">$</span>
-      <span className="typed-text">{typedTagline}</span>
-      <span className="cursor-block" aria-hidden="true">
-        █
-      </span>
+      <span className="typed-text">{typedTagline}<span className="cursor-block" aria-hidden="true">█</span></span>
     </div>
   );
 
@@ -798,11 +795,11 @@ const Hero = () => {
             titleItems.map((item, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 1, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.4,
-                  delay: 0.4 + i * 0.1,
+                  duration: 0.35,
+                  delay: i * 0.05,
                   ease: [0.645, 0.045, 0.355, 1],
                 }}>
                 {item}
@@ -824,7 +821,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 0.4,
-                delay: 0.82,
+                delay: 0.2,
                 ease: [0.645, 0.045, 0.355, 1],
               }}>
               {terminalWidget}
@@ -835,7 +832,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 0.4,
-                delay: 0.95,
+                delay: 0.28,
                 ease: [0.645, 0.045, 0.355, 1],
               }}>
               {resumeButton}

@@ -1,0 +1,11 @@
+{
+  "specVersion": "1.0",
+  "entries": [
+    {
+      "id": "bodephase-portfolio",
+      "name": "Massimiliano Favetta — Engineering Portfolio",
+      "description": "Personal portfolio and interactive project sandboxes of Massimiliano Favetta, Computer and Systems Engineering student at Sapienza University of Rome.",
+      "url": "https://BodePhase.github.io/"
+    }
+  ]
+}

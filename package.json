@@ -14,8 +14,10 @@
   ],
   "license": "MIT",
   "browserslist": [
-    "> 0.25%",
-    "not dead"
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions"
   ],
   "scripts": {
     "develop": "mkdir -p .cache && NODE_OPTIONS='--no-deprecation' gatsby develop",

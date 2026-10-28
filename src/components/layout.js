@@ -106,12 +106,7 @@ const Layout = ({ children, location }) => {
   const isHome = location.pathname === '/';
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  const [isLoading, setIsLoading] = useState(() => {
-    if (!isHome || typeof window === 'undefined') {
-      return false;
-    }
-    return !window.sessionStorage.getItem('mf_portfolio_booted');
-  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFinishLoading = () => {
     if (typeof window !== 'undefined') {

@@ -208,8 +208,8 @@ const About = () => {
             <StaticImage
               className="img"
               src="../../images/me.jpg"
-              width={500}
-              quality={95}
+              width={280}
+              quality={80}
               formats={['AUTO', 'WEBP']}
               alt="Headshot"
             />

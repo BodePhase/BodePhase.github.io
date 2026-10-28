@@ -6,13 +6,16 @@ import { usePrefersReducedMotion } from '@hooks';
 
 const pulse = keyframes`
   0% {
-    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+    transform: scale(1);
+    opacity: 0.85;
   }
   70% {
-    box-shadow: 0 0 0 8px rgba(46, 204, 113, 0);
+    transform: scale(2.4);
+    opacity: 0;
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+    transform: scale(2.4);
+    opacity: 0;
   }
 `;
 
@@ -62,11 +65,22 @@ const StyledContactSection = styled(motion.section)`
     letter-spacing: 0.03em;
 
     .status-dot {
+      position: relative;
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background-color: var(--green);
-      animation: ${pulse} 2s infinite;
+
+      &:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background-color: var(--green);
+        animation: ${pulse} 2s infinite;
+        will-change: transform, opacity;
+      }
+    } 2s infinite;
     }
   }
 

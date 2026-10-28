@@ -430,12 +430,12 @@ const Featured = () => {
                         </a>
                       )}
                       {github && (
-                        <a href={github} aria-label="GitHub Link">
+                        <a href={github} aria-label={`${title} GitHub repository`}>
                           <Icon name="GitHub" />
                         </a>
                       )}
                       {external && !cta && (
-                        <a href={external} aria-label="External Link" className="external">
+                        <a href={external} aria-label={`${title} external link`} className="external">
                           <Icon name="External" />
                         </a>
                       )}
