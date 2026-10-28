@@ -229,6 +229,11 @@ const Menu = ({ isHome = true }) => {
     return () => document.body.classList.remove('blur');
   }, [menuOpen]);
 
+  useEffect(() => {
+    document.body.classList.toggle('blur', menuOpen);
+    return () => document.body.classList.remove('blur');
+  }, [menuOpen]);
+
   const handleMobileNavClick = (e, url) => {
     setMenuOpen(false);
     window.scrollTo({ left: 0 });

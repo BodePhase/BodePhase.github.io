@@ -1,10 +1,9 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { Layout } from '@components';
+import { Head as SiteHead, Layout } from '@components';
 import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
 
@@ -134,7 +133,6 @@ const ArchivePage = ({ location, data }) => {
 
   return (
     <Layout location={location}>
-      <Helmet title="Archive" />
 
       <main>
         <motion.header
@@ -261,3 +259,5 @@ export const pageQuery = graphql`
     }
   }
 `;
+
+export const Head = ({ location }) => <SiteHead title="Archive" pathname={location.pathname} />;

@@ -30,24 +30,15 @@ module.exports = {
     },
     {
       resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
-      },
+      options: { name: `images`, path: `${__dirname}/src/images` },
     },
     {
       resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'content',
-        path: `${__dirname}/content/`,
-      },
+      options: { name: 'content', path: `${__dirname}/content/` },
     },
     {
       resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `projects`,
-        path: `${__dirname}/content/projects`,
-      },
+      options: { name: `projects`, path: `${__dirname}/content/projects` },
     },
     {
       resolve: `gatsby-transformer-remark`,
@@ -55,21 +46,11 @@ module.exports = {
         plugins: [
           {
             resolve: 'gatsby-remark-images',
-            options: {
-              maxWidth: 700,
-              linkImagesToOriginal: true,
-              quality: 90,
-            },
+            options: { maxWidth: 700, linkImagesToOriginal: true, quality: 90 },
           },
           {
             resolve: `gatsby-remark-prismjs`,
-            options: {
-              classPrefix: 'language-',
-              inlineCodeMarker: null,
-              aliases: {},
-              showLineNumbers: false,
-              noInlineHighlight: false,
-            },
+            options: { classPrefix: 'language-', showLineNumbers: false },
           },
         ],
       },

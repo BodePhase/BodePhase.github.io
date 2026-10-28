@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Layout } from '@components';
+import { Head as SiteHead, Layout } from '@components';
 import { usePrefersReducedMotion } from '@hooks';
 
 const StyledMainContainer = styled(motion.main)`
@@ -31,7 +30,6 @@ const NotFoundPage = ({ location }) => {
 
   return (
     <Layout location={location}>
-      <Helmet title="Page Not Found" />
       <StyledMainContainer
         className="fillHeight"
         initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
@@ -50,3 +48,7 @@ NotFoundPage.propTypes = {
 };
 
 export default NotFoundPage;
+
+export const Head = ({ location }) => (
+  <SiteHead title="Page Not Found" pathname={location.pathname} />
+);

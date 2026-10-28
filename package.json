@@ -18,9 +18,9 @@
     "not dead"
   ],
   "scripts": {
-    "develop": "mkdir -p .cache && gatsby develop",
+    "develop": "mkdir -p .cache && NODE_OPTIONS='--no-deprecation' gatsby develop",
     "start": "npm run develop",
-    "build": "mkdir -p .cache && gatsby build",
+    "build": "mkdir -p .cache && NODE_OPTIONS='--no-deprecation' gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean && mkdir -p .cache",
     "format": "prettier --write \"src/**/*.{js,jsx,json,md}\""
